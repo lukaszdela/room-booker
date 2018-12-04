@@ -30,6 +30,7 @@ public String getAllReservations(Model model) {
 	return "index";
 }
 
+
 @PostMapping("/reservation/add")
 public String newReservation(@ModelAttribute Reservation reservation) {
 	iReservationService.saveReservation(reservation);

@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:include="@{header.html}"></div>
+
+<div class="container">
+  <div class="w-50 p-2">
+
+    <table class="table">
+    <thead>
+    <tr>
+
+      <th scope="col">Date</th>
+      <th scope="col">Name</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <!-- <th:block th:each="reservation : ${reservations}"> -->
+    <tr>
+<form th:action="@{/reservation/update/save/{reservationId} (reservationId=${reservation.id})}" method="post">
+      <td>
+         <input type="text" class="form-control" name="date" th:value="${reservation.date}">
+      </td>
+      <td>
+        <input type="text" class="form-control" name="name" th:value="${reservation.name}">
+      </td>
+
+      <td>
+        <button type="submit" class="btn">Update</button>
+        </td>
+      </form>
+    </tr>
+    <!-- </th:block> -->
+    </tbody>
+    </table>
+
+  </div>
+</div>
+</body>
+</html>
+
+<script type="application/javascript">
+  $(document).ready(function () {
+      $("#my-calendar").zabuto_calendar();
+  });
+</script>

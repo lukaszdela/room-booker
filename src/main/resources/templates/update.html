@@ -19,7 +19,8 @@
     <tr>
 <form th:action="@{/reservation/update/save/{reservationId} (reservationId=${reservation.id})}" method="post">
       <td>
-         <input type="text" class="form-control" name="date" th:value="${reservation.date}">
+        <!-- <input id="date" name="date" class="form-control input-md" type="date" th:value="${reservation.date}> -->
+         <input type="date" class="form-control" name="date" th:value="${reservation.date}">
       </td>
       <td>
         <input type="text" class="form-control" name="name" th:value="${reservation.name}">
@@ -29,6 +30,11 @@
         <button type="submit" class="btn">Update</button>
         </td>
       </form>
+      <td>
+        <a th:href="@{/}">
+            <button class="btn">Back</button>
+        </a>
+      </td>
     </tr>
     <!-- </th:block> -->
     </tbody>

@@ -76,6 +76,14 @@
 
 <script type="application/javascript">
     $(document).ready(function () {
-        $("#my-calendar").zabuto_calendar();
+        $("#my-calendar").zabuto_calendar({
+
+  ajax: {
+     url: "http://localhost:8085/list",
+     modal: true
+   },
+
+ cell_border: true
+        });
     });
 </script>

@@ -26,6 +26,8 @@ public class ReservationService implements IReservationService{
 	
 	@Override
 	public void saveReservation(Reservation reservation) {
+		reservation.setBadge(true);
+		reservation.setClassname("purple-event");
 		reservationRepository.save(reservation);
 	}
 	

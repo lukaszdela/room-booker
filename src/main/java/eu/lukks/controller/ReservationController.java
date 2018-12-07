@@ -55,7 +55,6 @@ public String updateReservation(@ModelAttribute Reservation reservation,
 								@PathVariable("reservationId")Long reservationId,
 								Model model) {
 Reservation reservationById = iReservationService.readReservationById(reservationId);
-reservationById.setName(reservation.getName());
 reservationById.setDate(reservation.getDate());
 iReservationService.saveReservation(reservationById);
 List<Reservation> reservations = iReservationService.findAllReservations();

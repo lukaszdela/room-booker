@@ -5,24 +5,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import eu.lukks.domain.Reservation;
-import eu.lukks.service.IReservationService;
+import eu.lukks.domain.ReservationSingle;
+import eu.lukks.service.IReservationSingleService;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 	
-	private IReservationService iReservationService;
-
-
+	private IReservationSingleService iReservationSingleService;
+	
+	
 	@Autowired
-	public RestController(IReservationService iReservationService) {
+	public RestController(IReservationSingleService iReservationSingleService) {
 		super();
-		this.iReservationService = iReservationService;
+		this.iReservationSingleService = iReservationSingleService;
 	}
 
+
 	@GetMapping("/list")
-	public List<Reservation> reservationsList() {
-		return iReservationService.findAllReservations(); 
+	public List<ReservationSingle> reservationsList() {
+		return iReservationSingleService.findAllReservationSingle(); 
 	}
 
 }

@@ -12,17 +12,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import eu.lukks.domain.Reservation;
 import eu.lukks.service.IReservationService;
+import eu.lukks.service.IReservationSingleService;
 
 @Controller
 public class ReservationController {
 
 private IReservationService iReservationService;
+private IReservationSingleService iReservationSingleService;
+
 
 @Autowired
-public ReservationController(IReservationService iReservationService) {
+public ReservationController(IReservationService iReservationService,
+		IReservationSingleService iReservationSingleService) {
 	super();
 	this.iReservationService = iReservationService;
+	this.iReservationSingleService = iReservationSingleService;
 }
+
 
 @GetMapping("/")
 public String getAllReservations(Model model) {
@@ -36,6 +42,7 @@ public String getAllReservations(Model model) {
 public String newReservation(@ModelAttribute Reservation reservation,
 								Model model) {
 	iReservationService.saveReservation(reservation);
+	iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
 	List<Reservation> reservations = iReservationService.findAllReservations();
 	model.addAttribute("reservations", reservations);
 	return "index";
@@ -55,7 +62,8 @@ public String updateReservation(@ModelAttribute Reservation reservation,
 								@PathVariable("reservationId")Long reservationId,
 								Model model) {
 Reservation reservationById = iReservationService.readReservationById(reservationId);
-reservationById.setDate(reservation.getDate());
+reservationById.setDateFrom(reservation.getDateFrom());
+reservationById.setDateTo(reservation.getDateTo());
 iReservationService.saveReservation(reservationById);
 List<Reservation> reservations = iReservationService.findAllReservations();
 model.addAttribute("reservations", reservations);

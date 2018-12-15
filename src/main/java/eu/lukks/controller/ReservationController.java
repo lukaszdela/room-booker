@@ -64,9 +64,11 @@ public String updateReservation(@ModelAttribute Reservation reservation,
 								@PathVariable("reservationId")Long reservationId,
 								Model model) {
 Reservation reservationById = iReservationService.readReservationById(reservationId);
+iReservationSingleService.deleteReservationSingleDay(reservationById.getDateFrom(), reservationById.getDateTo());
 reservationById.setDateFrom(reservation.getDateFrom());
 reservationById.setDateTo(reservation.getDateTo());
 iReservationService.saveReservation(reservationById);
+iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
 List<Reservation> reservations = iReservationService.findAllReservations();
 model.addAttribute("reservations", reservations);
 return "index";

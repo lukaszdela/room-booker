@@ -8,8 +8,9 @@
     <thead>
     <tr>
 
-      <th scope="col">Date</th>
       <th scope="col">Name</th>
+      <th scope="col">Date From</th>
+      <th scope="col">Date To</th>
 
 
     </tr>
@@ -18,9 +19,18 @@
     <!-- <th:block th:each="reservation : ${reservations}"> -->
     <tr>
 <form th:action="@{/reservation/update/save/{reservationId} (reservationId=${reservation.id})}" method="post">
+
+  <td>
+    <!-- <input id="date" name="date" class="form-control input-md" type="date" th:value="${reservation.date}> -->
+     <input type="text" class="form-control" name="name" th:value="${reservation.name}">
+  </td>
+  <td>
+    <!-- <input id="date" name="date" class="form-control input-md" type="date" th:value="${reservation.date}> -->
+     <input type="date" class="form-control" name="dateFrom" th:value="${reservation.dateFrom}">
+  </td>
       <td>
         <!-- <input id="date" name="date" class="form-control input-md" type="date" th:value="${reservation.date}> -->
-         <input type="date" class="form-control" name="date" th:value="${reservation.date}">
+         <input type="date" class="form-control" name="dateTo" th:value="${reservation.dateTo}">
       </td>
 
       <td>

@@ -11,4 +11,6 @@ public interface IReservationSingleService {
 
 	List<ReservationSingle> findAllReservationSingle();
 
+	void deleteReservationSingleDay(LocalDate dateFrom, LocalDate dateTo);
+
 }

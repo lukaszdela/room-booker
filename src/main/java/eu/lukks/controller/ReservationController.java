@@ -51,6 +51,8 @@ public String newReservation(@ModelAttribute Reservation reservation,
 @GetMapping("/reservation/delete/{reservationId}")
 public String deleteReservationById(@PathVariable("reservationId")Long reservationId,
 													Model model) {
+	Reservation reservationById = iReservationService.readReservationById(reservationId);
+	iReservationSingleService.deleteReservationSingleDay(reservationById.getDateFrom(), reservationById.getDateTo());
 	iReservationService.deleteReservationById(reservationId);
 	List<Reservation> reservationList = iReservationService.findAllReservations();
 	model.addAttribute("reservations", reservationList);

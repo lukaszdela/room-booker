@@ -34,8 +34,13 @@ public class ReservationSingleService implements IReservationSingleService{
 		}
 	}
 	
+	@Override
 	public void deleteReservationSingleDay(LocalDate dateFrom, LocalDate dateTo) {
-		
+		LocalDate counterDate = dateFrom;
+		while (counterDate.isBefore(dateTo.plusDays(1))) {
+			reservationSingleRepository.deleteById(reservationSingleRepository.getIdByDate(counterDate));
+			counterDate = counterDate.plusDays(1);
+		}
 	}
 	
 	@Override

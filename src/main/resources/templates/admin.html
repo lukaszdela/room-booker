@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:include="@{header.html}"></div>
+
+<title>Room booker by Luc | admin panel</title>
+</head>
+<body>
+
+  <div class="container">
+  <div class="w-50 p-2">
+    <table class="table">
+  <thead>
+    <tr>
+
+      <th scope="col">Date From</th>
+      <th scope="col">Date To</th>
+      <th scope="col">Name</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <th:block th:each="reservation : ${reservations}">
+    <tr>
+  <form th:action="@{/reservation/update/{reservationId} (reservationId=${reservation.id})}" method="post">
+      <td th:text="${reservation.dateFrom}">
+      </td>
+      <td th:text="${reservation.dateTo}">
+      </td>
+      <td th:text="${reservation.name}">
+      </td>
+
+  <td>
+  <button type="submit" class="btn">Update</button>
+
+  </td>
+  </form>
+      <td>
+        <a th:href="@{/reservation/delete/{reservationId} (reservationId=${reservation.id})}">
+            <button class="btn">Delete</button>
+        </a>
+      </td>
+    </tr>
+    </th:block>
+  </tbody>
+  </table>
+  </div>
+  </div>
+
+</body>
+</html>

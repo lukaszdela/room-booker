@@ -30,11 +30,11 @@ public ReservationController(IReservationService iReservationService,
 }
 
 
-@GetMapping("/")
-public String getAllReservations(Model model) {
+@GetMapping("/admin")
+public String getAllReservationsAdmin(Model model) {
 	List<Reservation> reservations = iReservationService.findAllReservations();
 	model.addAttribute("reservations", reservations);
-	return "index";
+	return "admin";
 }
 
 
@@ -56,7 +56,7 @@ public String deleteReservationById(@PathVariable("reservationId")Long reservati
 	iReservationService.deleteReservationById(reservationId);
 	List<Reservation> reservationList = iReservationService.findAllReservations();
 	model.addAttribute("reservations", reservationList);
-	return "index";
+	return "admin";
 }
 
 @PostMapping("/reservation/update/save/{reservationId}")
@@ -71,7 +71,7 @@ iReservationService.saveReservation(reservationById);
 iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
 List<Reservation> reservations = iReservationService.findAllReservations();
 model.addAttribute("reservations", reservations);
-return "index";
+return "admin";
 }
 
 @PostMapping("/reservation/update/{reservationId}")

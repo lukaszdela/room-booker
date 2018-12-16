@@ -1,0 +1,9 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:include="@{header.html}"></div>
+
+<title>Room booker by Luc | admin panel</title>
+</head>
+<body>
+
+</body>
+</html>

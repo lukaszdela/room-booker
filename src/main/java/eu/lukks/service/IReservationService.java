@@ -1,5 +1,6 @@
 package eu.lukks.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import eu.lukks.domain.Reservation;
@@ -13,5 +14,7 @@ public interface IReservationService {
 	void deleteReservationById(Long id);
 
 	List<Reservation> findAllReservations();
+
+	Boolean checkDateFromAfterDateTo(LocalDate dateFrom, LocalDate dateTo);
 
 }

@@ -1,5 +1,6 @@
 package eu.lukks.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +40,8 @@ public class ReservationService implements IReservationService{
 		return reservationRepository.findAll();
 	}
 
+	@Override
+	public Boolean checkDateFromAfterDateTo(LocalDate dateFrom, LocalDate dateTo) {
+		return dateFrom.isAfter(dateTo);
+	}
 }

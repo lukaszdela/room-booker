@@ -48,4 +48,19 @@ public class ReservationSingleService implements IReservationSingleService{
 		return reservationSingleRepository.findAll();
 	}
 	
+	@Override
+	public Boolean checkByDate(LocalDate dateFrom, LocalDate dateTo) {
+		LocalDate counterDate = dateFrom;
+		Boolean trigger = false;
+		while (counterDate.isBefore(dateTo.plusDays(1))) {
+			if (reservationSingleRepository.getIdByDate(counterDate) != null) {
+				trigger = true;
+			}
+			counterDate = counterDate.plusDays(1);
+		}
+		return trigger;
+	}
+	
+
+	
 }

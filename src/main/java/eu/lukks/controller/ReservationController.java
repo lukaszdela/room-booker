@@ -1,7 +1,9 @@
 package eu.lukks.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,8 +43,16 @@ public String getAllReservationsAdmin(Model model) {
 @PostMapping("/reservation/add")
 public String newReservation(@ModelAttribute Reservation reservation,
 								Model model) {
-	iReservationService.saveReservation(reservation);
-	iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
+	if (!iReservationSingleService.checkByDate(reservation.getDateFrom(), reservation.getDateTo()) &&
+		!iReservationService.checkDateFromAfterDateTo(reservation.getDateFrom(), reservation.getDateTo()) &&
+		iReservationService.checkDateFromAfterDateTo(reservation.getDateFrom(), LocalDate.now().minusDays(1))	
+			) {
+		iReservationService.saveReservation(reservation);
+		iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
+	}
+	
+//	else Message o niepowodzeniu
+	
 	List<Reservation> reservations = iReservationService.findAllReservations();
 	model.addAttribute("reservations", reservations);
 	return "index";

@@ -15,5 +15,4 @@ public interface ReservationSingleRepository extends JpaRepository<ReservationSi
 	
 	@Query("select e.id from ReservationSingle e where e.date = :date")
     Long getIdByDate(@Param("date") LocalDate date);
-	
 }

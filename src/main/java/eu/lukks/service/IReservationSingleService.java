@@ -13,4 +13,6 @@ public interface IReservationSingleService {
 
 	void deleteReservationSingleDay(LocalDate dateFrom, LocalDate dateTo);
 
+	Boolean checkByDate(LocalDate dateFrom, LocalDate dateTo);
+
 }

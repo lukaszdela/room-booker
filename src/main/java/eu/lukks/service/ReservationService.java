@@ -8,40 +8,52 @@ import org.springframework.stereotype.Service;
 
 import eu.lukks.domain.Reservation;
 import eu.lukks.repository.ReservationRepository;
-
 @Service
 public class ReservationService implements IReservationService{
 	
-	private ReservationRepository reservationRepository;
+	private ReservationRepository reservartionRepository;
 
 	@Autowired
-	public ReservationService(ReservationRepository reservationRepository) {
+	public ReservationService(ReservationRepository reservartionRepository) {
 		super();
-		this.reservationRepository = reservationRepository;
+		this.reservartionRepository = reservartionRepository;
 	}
-	
+
 	@Override
 	public Reservation readReservationById(Long id) {
-		return reservationRepository.findById(id).orElse(null);
+		return reservartionRepository.findById(id).orElse(null);
 	}
 	
 	@Override
 	public void saveReservation(Reservation reservation) {
-		reservationRepository.save(reservation);
+		reservartionRepository.save(reservation);
 	}
 	
 	@Override
 	public void deleteReservationById(Long id) {
-		reservationRepository.deleteById(id);
+		reservartionRepository.deleteById(id);
 	}
 	
 	@Override
 	public List<Reservation> findAllReservations(){
-		return reservationRepository.findAll();
+		return reservartionRepository.findAll();
 	}
 
 	@Override
 	public Boolean checkDateFromAfterDateTo(LocalDate dateFrom, LocalDate dateTo) {
 		return dateFrom.isAfter(dateTo);
 	}
+	
+	@Override
+	public Integer howManyDays(LocalDate dateFrom, LocalDate dateTo) {
+		LocalDate counterDate = dateFrom;
+		Integer counter = 0;
+		while (counterDate.isBefore(dateTo.plusDays(1))) {
+			counterDate = counterDate.plusDays(1);
+			counter++;
+		}
+		return counter;
+	}
+	
+	
 }

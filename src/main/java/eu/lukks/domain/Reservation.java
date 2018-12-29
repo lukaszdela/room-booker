@@ -29,11 +29,13 @@ public class Reservation implements Serializable{
 	private Long id;
 	
 	private String name;
+	private String surname;
 	private String address;
 	private String zip;
 	private String city;
 	private String phone;
 	private String mail;
+	private Integer price;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

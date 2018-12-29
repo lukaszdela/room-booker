@@ -17,4 +17,8 @@ public interface IReservationService {
 
 	Boolean checkDateFromAfterDateTo(LocalDate dateFrom, LocalDate dateTo);
 
+	Integer howManyDays(LocalDate dateFrom, LocalDate dateTo);
+
+
+
 }

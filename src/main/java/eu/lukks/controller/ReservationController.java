@@ -43,15 +43,22 @@ public String getAllReservationsAdmin(Model model) {
 @PostMapping("/reservation/add")
 public String newReservation(@ModelAttribute Reservation reservation,
 								Model model) {
-	if (!iReservationSingleService.checkByDate(reservation.getDateFrom(), reservation.getDateTo()) &&
-		!iReservationService.checkDateFromAfterDateTo(reservation.getDateFrom(), reservation.getDateTo()) &&
+	if (!iReservationService.checkDateFromAfterDateTo(reservation.getDateFrom(), reservation.getDateTo()) &&
 		iReservationService.checkDateFromAfterDateTo(reservation.getDateFrom(), LocalDate.now().minusDays(1))	
 			) {
-		iReservationService.saveReservation(reservation);
-		iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
+		if (!iReservationSingleService.checkByDate(reservation.getDateFrom(), reservation.getDateTo())) {
+			reservation.setPrice(iReservationService.howManyDays(reservation.getDateFrom(), reservation.getDateTo()) * 120);
+			iReservationService.saveReservation(reservation);
+			iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
+		}else {
+			String msg = String.format("The selected date is reserved. Please choose another one.");
+	        model.addAttribute("msg", msg);
+		}
+		
+	}else {
+		String msg = String.format("Selected dates are incorrect. Please try again.");
+        model.addAttribute("msg", msg);
 	}
-	
-//	else Message o niepowodzeniu
 	
 	List<Reservation> reservations = iReservationService.findAllReservations();
 	model.addAttribute("reservations", reservations);

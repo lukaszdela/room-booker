@@ -5,27 +5,32 @@
 </head>
 <body>
 
-  <div class="container">
-  <div class="w-50 p-2">
+  <div class="container" th:with="counter=${0}">
     <table class="table">
   <thead>
     <tr>
 
+      <th scope="col">Lp.</th>
       <th scope="col">Date From</th>
       <th scope="col">Date To</th>
       <th scope="col">Name</th>
+        <th scope="col">Surname</th>
 
     </tr>
   </thead>
   <tbody>
-    <th:block th:each="reservation : ${reservations}">
+    <th:block th:each="reservation, iStat : ${reservations}">
     <tr>
   <form th:action="@{/reservation/update/{reservationId} (reservationId=${reservation.id})}" method="post">
+    <td  th:text="${iStat.index + 1}">
+    </td>
       <td th:text="${reservation.dateFrom}">
       </td>
       <td th:text="${reservation.dateTo}">
       </td>
       <td th:text="${reservation.name}">
+      </td>
+      <td th:text="${reservation.surname}">
       </td>
 
   <td>
@@ -42,7 +47,6 @@
     </th:block>
   </tbody>
   </table>
-  </div>
   </div>
 
 </body>

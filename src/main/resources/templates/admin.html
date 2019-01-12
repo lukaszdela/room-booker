@@ -5,49 +5,90 @@
 </head>
 <body>
 
-  <div class="container" th:with="counter=${0}">
-    <table class="table">
-  <thead>
-    <tr>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-8 p-3">
+        <table id="reservationResults" class="table">
+        <thead class="thead-dark">
+        <tr>
 
-      <th scope="col">Lp.</th>
-      <th scope="col">Date From</th>
-      <th scope="col">Date To</th>
-      <th scope="col">Name</th>
-        <th scope="col">Surname</th>
+          <th scope="col">Date</th>
+          <th scope="col">Name</th>
+          <th scope="col">Mail</th>
+          <th scope="col">Phone</th>
+          <th scope="col"></th>
 
-    </tr>
-  </thead>
-  <tbody>
-    <th:block th:each="reservation, iStat : ${reservations}">
-    <tr>
-  <form th:action="@{/reservation/update/{reservationId} (reservationId=${reservation.id})}" method="post">
-    <td  th:text="${iStat.index + 1}">
-    </td>
-      <td th:text="${reservation.dateFrom}">
-      </td>
-      <td th:text="${reservation.dateTo}">
-      </td>
-      <td th:text="${reservation.name}">
-      </td>
-      <td th:text="${reservation.surname}">
-      </td>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="reservation : ${reservations}">
+        <tr>
+          <td th:text="${reservation.dateFrom + ' to ' + reservation.dateTo}">
+          </td>
+          <td th:text="${reservation.name + ' ' + reservation.surname}">
+          </td>
+          <td th:text="${reservation.mail}">
+          </td>
+          <td th:text="${reservation.phone}">
+          </td>
+          <td>
+            <!-- <a th:href="@{/admin/reservation/delete/{reservationId} (reservationId=${reservation.id})}">
+                <button class="btn">Delete</button>
+            </a> -->
+            <div class="dropdown">
+                                    <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                            id="dropdownBookMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">Options
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownBookMenuButton">
+                                        <a class="dropdown-item" th:href="@{/books/all}">show</a>
+                                        <a class="dropdown-item" th:href="@{/books/free}">update</a>
+                                        <a class="dropdown-item" th:href="@{/books/borrowed}">delete</a>
+                                    </div>
+                                </div>
+          </td>
+        </tr>
+        </th:block>
+        </tbody>
+        </table>
 
-  <td>
-  <button type="submit" class="btn">Update</button>
+      </div>
 
-  </td>
-  </form>
-      <td>
-        <a th:href="@{/reservation/delete/{reservationId} (reservationId=${reservation.id})}">
-            <button class="btn">Delete</button>
-        </a>
-      </td>
-    </tr>
-    </th:block>
-  </tbody>
-  </table>
+      <div class="col-4 p-3 border">
+        <div class="w-75">
+            <form th:action="@{/admin/search/date}" method="post">
+              <label class="control-label" for="date">Date from:</label>
+              <input size="10" type="date" class="form-control" name="dateFrom" />
+              <label class="control-label" for="date">Date to:</label>
+              <input size="10" type="date" class="form-control" name="dateTo" />
+              <br />
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <hr />
+            <form th:action="@{/admin/search/reservations}" method="post">
+              <label class="control-label" for="date">Number of latest reservations:</label>
+              <input size="10" type="number" class="form-control" name="counter" />
+              <br />
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+      </div>
+    </div>
+
+
+
+
   </div>
 
 </body>
 </html>
+<script type="application/javascript">
+$(document).ready(function () {
+  $('#reservationResults').DataTable({
+  "columnDefs": [
+    { "orderable": false, "targets": 4 }
+  ]
+});
+  $('.dataTables_length').addClass('bs-select');
+});
+</script>

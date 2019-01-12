@@ -1,9 +1,11 @@
 package eu.lukks.service;
 
+
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import eu.lukks.domain.Reservation;
@@ -54,6 +56,22 @@ public class ReservationService implements IReservationService{
 		}
 		return counter;
 	}
+	
+	@Override
+	public List<Reservation> searchReservations(LocalDate dateFrom, LocalDate dateTo, String name, String surname){
+		return reservartionRepository.searchReservations(dateFrom, dateTo, name, surname);
+	}
+	
+	@Override
+	public List<Reservation> searchReservationsByName(String name, String surname){
+		return reservartionRepository.searchReservationsByName(name, surname);
+	}
+	
+	@Override
+	public List<Reservation> listDefaultAdminReservations(Pageable pageable){
+		return reservartionRepository.listDefaultAdminReservations(pageable);
+	}
+	
 	
 	
 }

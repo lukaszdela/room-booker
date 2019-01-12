@@ -1,7 +1,10 @@
 package eu.lukks.service;
 
+
 import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 
 import eu.lukks.domain.Reservation;
 
@@ -18,6 +21,12 @@ public interface IReservationService {
 	Boolean checkDateFromAfterDateTo(LocalDate dateFrom, LocalDate dateTo);
 
 	Integer howManyDays(LocalDate dateFrom, LocalDate dateTo);
+
+	List<Reservation> searchReservations(LocalDate dateFrom, LocalDate dateTo, String name, String surname);
+
+	List<Reservation> searchReservationsByName(String name, String surname);
+
+	List<Reservation> listDefaultAdminReservations(Pageable pageable);
 
 
 

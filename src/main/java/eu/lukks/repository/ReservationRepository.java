@@ -13,12 +13,9 @@ import eu.lukks.domain.Reservation;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long>{
 	
-	@Query("select e from Reservation e where (e.dateFrom >= :dateFrom) and (e.dateTo <= :dateTo) and (e.name like %:name%) and (e.surname like %:surname%)")
-    List<Reservation> searchReservations(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo, @Param("name") String name, @Param("surname") String surname);
+	@Query("select e from Reservation e where (e.dateFrom >= :dateFrom) and (e.dateTo <= :dateTo)")
+    List<Reservation> searchReservationsByDate(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
 
-	@Query("select e from Reservation e where e.name like %:name% and e.surname like %:surname%")
-    List<Reservation> searchReservationsByName(@Param("name") String name, @Param("surname") String surname);
-	
 	@Query("select e from Reservation e order by e.id desc")
-	List<Reservation> listDefaultAdminReservations(Pageable pageable);
+	List<Reservation> listNumberedAdminReservations(Pageable pageable);
 }

@@ -22,11 +22,9 @@ public interface IReservationService {
 
 	Integer howManyDays(LocalDate dateFrom, LocalDate dateTo);
 
-	List<Reservation> searchReservations(LocalDate dateFrom, LocalDate dateTo, String name, String surname);
+	List<Reservation> listNumberedAdminReservations(Pageable pageable);
 
-	List<Reservation> searchReservationsByName(String name, String surname);
-
-	List<Reservation> listDefaultAdminReservations(Pageable pageable);
+	List<Reservation> searchReservationsByDate(LocalDate dateFrom, LocalDate dateTo);
 
 
 

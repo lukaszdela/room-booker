@@ -1,7 +1,7 @@
 package eu.lukks.repository;
 
 import java.time.LocalDate;
-
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +15,7 @@ public interface ReservationSingleRepository extends JpaRepository<ReservationSi
 	
 	@Query("select e.id from ReservationSingle e where e.date = :date")
     Long getIdByDate(@Param("date") LocalDate date);
+	
+	@Query("select e from ReservationSingle e where e.date >= :dateStartMonth")
+    List<ReservationSingle> searchSingleReservationStartMonth(@Param("dateStartMonth") LocalDate date);
 }

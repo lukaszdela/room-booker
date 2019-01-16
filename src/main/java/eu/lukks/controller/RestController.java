@@ -1,6 +1,8 @@
 package eu.lukks.controller;
 
 import java.awt.print.Pageable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +31,13 @@ public class RestController {
 
 	@GetMapping("/list")
 	public List<ReservationSingle> reservationsList() {
-		return iReservationSingleService.findAllReservationSingle(); 
+		LocalDate actualDate = LocalDate.now();
+		LocalDate firstDayActualDate = actualDate.withDayOfMonth(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String text = firstDayActualDate.format(formatter);
+		LocalDate parsedDate = LocalDate.parse(text, formatter);
+		return iReservationSingleService.findReservationSingleStartMonth(parsedDate);
 	}
-	
-	@GetMapping("/admin/list/default")
-	public List<Reservation> listDefaultAdminReservations(){
-		return iReservationService.listDefaultAdminReservations(PageRequest.of(0,2));
-	}
+
 
 }

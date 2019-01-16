@@ -1,10 +1,10 @@
 package eu.lukks.controller;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import eu.lukks.domain.Reservation;
 import eu.lukks.service.IReservationService;
@@ -38,7 +36,7 @@ public ReservationController(IReservationService iReservationService,
 
 @GetMapping("/admin")
 public String getAllReservationsAdmin(Model model) {
-	List<Reservation> reservations = iReservationService.findAllReservations();
+	List<Reservation> reservations = iReservationService.listNumberedAdminReservations(PageRequest.of(0,20));
 	model.addAttribute("reservations", reservations);
 	return "admin";
 }
@@ -55,7 +53,7 @@ public String newReservation(@ModelAttribute Reservation reservation,
 			iReservationService.saveReservation(reservation);
 			iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
 		}else {
-			String msg = String.format("The selected date is reserved. Please choose another one.");
+			String msg = String.format("Selected date is reserved. Please choose another one.");
 	        model.addAttribute("msg", msg);
 		}
 		
@@ -69,58 +67,67 @@ public String newReservation(@ModelAttribute Reservation reservation,
 	return "index";
 }
 	
-@GetMapping("/reservation/delete/{reservationId}")
-public String deleteReservationById(@PathVariable("reservationId")Long reservationId,
-													Model model) {
-	Reservation reservationById = iReservationService.readReservationById(reservationId);
-	iReservationSingleService.deleteReservationSingleDay(reservationById.getDateFrom(), reservationById.getDateTo());
+@GetMapping("/admin/reservation/delete/{reservationId}")
+public String deleteReservationById(@PathVariable("reservationId")Long reservationId, Model model) {
 	iReservationService.deleteReservationById(reservationId);
-	List<Reservation> reservationList = iReservationService.findAllReservations();
-	model.addAttribute("reservations", reservationList);
-	return "admin";
-}
-
-@PostMapping("/reservation/update/save/{reservationId}")
-public String updateReservation(@ModelAttribute Reservation reservation,
-								@PathVariable("reservationId")Long reservationId,
-								Model model) {
-Reservation reservationById = iReservationService.readReservationById(reservationId);
-iReservationSingleService.deleteReservationSingleDay(reservationById.getDateFrom(), reservationById.getDateTo());
-reservationById.setDateFrom(reservation.getDateFrom());
-reservationById.setDateTo(reservation.getDateTo());
-iReservationService.saveReservation(reservationById);
-iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
-List<Reservation> reservations = iReservationService.findAllReservations();
-model.addAttribute("reservations", reservations);
-return "admin";
-}
-
-@PostMapping("/reservation/update/{reservationId}")
-public String updateReservationSite(@PathVariable("reservationId")Long reservationId,
-									Model model) {
-	Reservation reservation = iReservationService.readReservationById(reservationId);
-	model.addAttribute("reservation", reservation);
-	return "update";
-}
-
-@PostMapping("/admin/search")
-public String searchReservations(@RequestParam("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateFrom,
-								@RequestParam("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo,
-								@RequestParam("name")String name,
-								@RequestParam("surname")String surname,
-								Model model) {
-	List<Reservation> reservations = iReservationService.searchReservations(dateFrom, dateTo, name, surname);
+	List<Reservation> reservations = iReservationService.listNumberedAdminReservations(PageRequest.of(0,20));
+	String msg = String.format("Reservation number: " + reservationId.toString() + ", has been deleted");
+    model.addAttribute("msgStatus", msg);
 	model.addAttribute("reservations", reservations);
 	return "admin";
 }
 
-//@PostMapping("/admin/search")
-//public String searchReservations(@RequestParam("name")String name, @RequestParam("surname")String surname,
+//@PostMapping("/admin/reservation/update/save/{reservationId}")
+//public String updateReservation(@ModelAttribute Reservation reservation,
+//								@PathVariable("reservationId")Long reservationId,
 //								Model model) {
-//	List<Reservation> reservations = iReservationService.searchReservationsByName(name, surname);
-//	model.addAttribute("reservations", reservations);
-//	return "admin";
+//Reservation reservationById = iReservationService.readReservationById(reservationId);
+//iReservationSingleService.deleteReservationSingleDay(reservationById.getDateFrom(), reservationById.getDateTo());
+//reservationById.setDateFrom(reservation.getDateFrom());
+//reservationById.setDateTo(reservation.getDateTo());
+//iReservationService.saveReservation(reservationById);
+//iReservationSingleService.saveReservationSingleDay(reservation.getDateFrom(), reservation.getDateTo());
+//List<Reservation> reservations = iReservationService.findAllReservations();
+//model.addAttribute("reservations", reservations);
+//return "admin";
 //}
+
+@GetMapping("/admin/reservation/update/{reservationId}")
+public String updateReservationSite(@PathVariable("reservationId")Long reservationId,
+									Model model) {
+	Reservation reservation = iReservationService.readReservationById(reservationId);
+	model.addAttribute("reservation", reservation);
+	return "update2";
+}
+
+@GetMapping("/admin/reservation/show/{reservationId}")
+public String showReservationById(@PathVariable("reservationId")Long reservationId,
+									Model model) {
+	Reservation reservation = iReservationService.readReservationById(reservationId);
+	model.addAttribute("reservation", reservation);
+	return "show";
+}
+
+@PostMapping("/admin/search/date")
+public String searchReservationsByDate(@RequestParam("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateFrom,
+								@RequestParam("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo,
+								Model model) {
+	List<Reservation> reservations = iReservationService.searchReservationsByDate(dateFrom, dateTo);
+	model.addAttribute("reservations", reservations);
+	return "admin";
+}
+
+@PostMapping("/admin/search/number")
+public String searchReservationsByNumber(@RequestParam("lastReservations") Integer number, Model model) {
+	if(number>0) {
+		List<Reservation> reservations = iReservationService.listNumberedAdminReservations(PageRequest.of(0,number));
+		model.addAttribute("reservations", reservations);	
+	}else {
+		String msg = String.format("Number latest reservations must be above 0");
+        model.addAttribute("msg", msg);
+	}
+	return "admin";
+}
 
 
 }

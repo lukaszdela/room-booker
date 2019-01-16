@@ -9,10 +9,10 @@ public interface IReservationSingleService {
 
 	void saveReservationSingleDay(LocalDate datefrom, LocalDate dateto);
 
-	List<ReservationSingle> findAllReservationSingle();
-
 	void deleteReservationSingleDay(LocalDate dateFrom, LocalDate dateTo);
 
 	Boolean checkByDate(LocalDate dateFrom, LocalDate dateTo);
+
+	List<ReservationSingle> findReservationSingleStartMonth(LocalDate date);
 
 }

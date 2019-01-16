@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:include="@{header.html}"></div>
+
+<title>Room booker by Luc | show reservation</title>
+</head>
+<body>
+
+  <div class="container w-25 mt-5">
+    <table class="table table-bordered">
+    <tbody>
+    <tr>
+      <td>
+        Date:
+      </td>
+      <td th:text="${reservation.dateFrom + ' to ' + reservation.dateTo}">
+      </td>
+      </tr>
+      <tr>
+        <td>
+          Name:
+        </td>
+        <td th:text="${reservation.name + ' ' + reservation.surname}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Address:
+        </td>
+        <td th:text="${reservation.address + ', ' + reservation.zip + ' '+ reservation.city}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Mail:
+        </td>
+        <td th:text="${reservation.mail}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Phone number:
+        </td>
+        <td th:text="${reservation.phone}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Reservation cost:
+        </td>
+        <td th:text="${reservation.price}">
+        </td>
+      </tr>
+    </tbody>
+    </table>
+    <a th:href="@{/admin}">
+<button class="btn btn-outline-danger">Back</button>
+</a>
+  </div>
+
+</body>
+</html>

@@ -44,8 +44,8 @@ public class ReservationSingleService implements IReservationSingleService{
 	}
 	
 	@Override
-	public List<ReservationSingle> findAllReservationSingle(){
-		return reservationSingleRepository.findAll();
+	public List<ReservationSingle> findReservationSingleStartMonth(LocalDate date){
+		return reservationSingleRepository.searchSingleReservationStartMonth(date);
 	}
 	
 	@Override

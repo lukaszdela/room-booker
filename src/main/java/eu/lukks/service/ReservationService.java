@@ -58,18 +58,13 @@ public class ReservationService implements IReservationService{
 	}
 	
 	@Override
-	public List<Reservation> searchReservations(LocalDate dateFrom, LocalDate dateTo, String name, String surname){
-		return reservartionRepository.searchReservations(dateFrom, dateTo, name, surname);
+	public List<Reservation> searchReservationsByDate(LocalDate dateFrom, LocalDate dateTo){
+		return reservartionRepository.searchReservationsByDate(dateFrom, dateTo);
 	}
 	
 	@Override
-	public List<Reservation> searchReservationsByName(String name, String surname){
-		return reservartionRepository.searchReservationsByName(name, surname);
-	}
-	
-	@Override
-	public List<Reservation> listDefaultAdminReservations(Pageable pageable){
-		return reservartionRepository.listDefaultAdminReservations(pageable);
+	public List<Reservation> listNumberedAdminReservations(Pageable pageable){
+		return reservartionRepository.listNumberedAdminReservations(pageable);
 	}
 	
 	

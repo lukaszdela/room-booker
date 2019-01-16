@@ -8,7 +8,15 @@
   <div class="container mt-5">
     <div class="row">
       <div class="col-8 p-3">
-        <table id="reservationResults" class="table">
+        <th:block th:if="${msgStatus}">
+               <div class="row justify-content-md-center">
+               <div class="alert alert-warning" role="alert">
+                   <br>
+                   <p align="center" th:text="${msgStatus}"></p>
+               </div>
+               </div>
+           </th:block>
+        <table id="reservationResults" class="table table-hover">
         <thead class="thead-dark">
         <tr>
 
@@ -41,9 +49,9 @@
                                             aria-expanded="false">Options
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownBookMenuButton">
-                                        <a class="dropdown-item" th:href="@{/books/all}">show</a>
-                                        <a class="dropdown-item" th:href="@{/books/free}">update</a>
-                                        <a class="dropdown-item" th:href="@{/books/borrowed}">delete</a>
+                                        <a class="dropdown-item" th:href="@{/admin/reservation/show/{reservationId}(reservationId=${reservation.id})}">show</a>
+                                        <a class="dropdown-item" th:href="@{/admin/reservation/update/{reservationId}(reservationId=${reservation.id})}">update</a>
+                                        <a class="dropdown-item" th:href="@{/admin/reservation/delete/{reservationId}(reservationId=${reservation.id})}">delete</a>
                                     </div>
                                 </div>
           </td>
@@ -54,23 +62,39 @@
 
       </div>
 
-      <div class="col-4 p-3 border">
+      <div class="col-4 p-3 border-left">
         <div class="w-75">
+          <label class="control-label" for="date">Default latest 20 reservations</label>
+          <br />
+          <br />
+          <a th:href="@{/admin}">
+          <button class="btn btn-primary">Show</button>
+          </a>
+          <hr />
             <form th:action="@{/admin/search/date}" method="post">
               <label class="control-label" for="date">Date from:</label>
-              <input size="10" type="date" class="form-control" name="dateFrom" />
+              <input data-provide="datepicker" id="dateFrom" required size="10" type="date" class="form-control" name="dateFrom" />
               <label class="control-label" for="date">Date to:</label>
-              <input size="10" type="date" class="form-control" name="dateTo" />
+              <input data-provide="datepicker" id="dateTo" required size="10" type="date" class="form-control" name="dateTo" />
               <br />
               <button type="submit" class="btn btn-primary">Search</button>
             </form>
             <hr />
-            <form th:action="@{/admin/search/reservations}" method="post">
+            <form th:action="@{/admin/search/number}" method="post">
+              <th:block th:if="${msg}">
+                     <div class="row justify-content-md-center">
+                     <div class="alert alert-warning w-75" role="alert">
+                         <br>
+                         <p align="center" th:text="${msg}"></p>
+                     </div>
+                     </div>
+                 </th:block>
               <label class="control-label" for="date">Number of latest reservations:</label>
-              <input size="10" type="number" class="form-control" name="counter" />
+              <input required size="10" type="number" class="form-control" name="lastReservations" />
               <br />
               <button type="submit" class="btn btn-primary">Search</button>
             </form>
+            <hr />
         </div>
       </div>
     </div>
@@ -88,6 +112,20 @@ $(document).ready(function () {
   "columnDefs": [
     { "orderable": false, "targets": 4 }
   ]
+});
+$('#dateFrom').datepicker({
+  format: "yyyy-mm-dd",
+  weekStart: 1,
+  maxViewMode: 1,
+  autoclose: true,
+  toggleActive: true
+});
+$('#dateTo').datepicker({
+  format: "yyyy-mm-dd",
+  weekStart: 1,
+  maxViewMode: 1,
+  autoclose: true,
+  toggleActive: true
 });
   $('.dataTables_length').addClass('bs-select');
 });

@@ -18,4 +18,7 @@ public interface ReservationSingleRepository extends JpaRepository<ReservationSi
 	
 	@Query("select e from ReservationSingle e where e.date >= :dateStartMonth")
     List<ReservationSingle> searchSingleReservationStartMonth(@Param("dateStartMonth") LocalDate date);
+	
+	@Query("select e from ReservationSingle e")
+	List<ReservationSingle> getAllSingleReservations();
 }

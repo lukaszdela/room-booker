@@ -38,6 +38,8 @@ public class Reservation implements Serializable{
 	private String phone;
 	private String mail;
 	private Integer price;
+	private Boolean breakfast = false;
+	private Boolean parking = false;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

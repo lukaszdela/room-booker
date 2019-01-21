@@ -21,6 +21,11 @@ public class ReservationSingleService implements IReservationSingleService{
 	}
 	
 	@Override
+	public List<ReservationSingle> getAllSingleReservations(){
+		return reservationSingleRepository.findAll();
+	}
+	
+	@Override
 	public void saveReservationSingleDay(LocalDate dateFrom, LocalDate dateTo) {
 		LocalDate counterDate = dateFrom;
 		
@@ -60,6 +65,7 @@ public class ReservationSingleService implements IReservationSingleService{
 		}
 		return trigger;
 	}
+	
 	
 
 	

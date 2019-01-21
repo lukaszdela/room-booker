@@ -26,6 +26,16 @@ public interface IReservationService {
 
 	List<Reservation> searchReservationsByDate(LocalDate dateFrom, LocalDate dateTo);
 
+	Boolean checkByDateSingleInReservations(LocalDate newDateFrom, LocalDate newDateTo, LocalDate reservationDateFrom,
+			LocalDate reservationDateTo);
+
+	String checkByDateSingleInReservationsBookedDays(LocalDate newDateFrom, LocalDate newDateTo,
+			LocalDate reservationDateFrom, LocalDate reservationDateTo);
+
+	List<LocalDate> datesListFromDateToDate(LocalDate dateFrom, LocalDate dateTo);
+
+	Integer calculatePriceForNewReservation(Reservation reservation);
+
 
 
 }

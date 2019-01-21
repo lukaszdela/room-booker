@@ -1,62 +1,178 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:include="@{header.html}"></div>
 
-<title>Room booker by Luc | update reservation</title>
+<title th:text="${'Room booker by Luc | update reservation ' + reservation.id}"></title>
 </head>
 <body>
-<div class="container">
-  <div class="w-50 p-2">
 
-    <table class="table">
-    <thead>
-    <tr>
-
-      <th scope="col">Name</th>
-      <th scope="col">Date From</th>
-      <th scope="col">Date To</th>
-
-
-    </tr>
-    </thead>
-    <tbody>
-    <!-- <th:block th:each="reservation : ${reservations}"> -->
-    <tr>
-<form th:action="@{/reservation/update/save/{reservationId} (reservationId=${reservation.id})}" method="post">
-
-  <td>
-    <!-- <input id="date" name="date" class="form-control input-md" type="date" th:value="${reservation.date}> -->
-     <input type="text" class="form-control" name="name" th:value="${reservation.name}">
-  </td>
-  <td>
-    <!-- <input id="date" name="date" class="form-control input-md" type="date" th:value="${reservation.date}> -->
-     <input type="date" class="form-control" name="dateFrom" th:value="${reservation.dateFrom}">
-  </td>
-      <td>
-        <!-- <input id="date" name="date" class="form-control input-md" type="date" th:value="${reservation.date}> -->
-         <input type="date" class="form-control" name="dateTo" th:value="${reservation.dateTo}">
-      </td>
-
-      <td>
-        <button type="submit" class="btn">Update</button>
+  <div class="container w-50 mt-5">
+    <div class="row">
+      <div class="col">
+        <input hidden id="reservationid" th:value="${reservation.id}" />
+    <form th:action="@{/admin/reservation/update/save/{reservationId} (reservationId=${reservation.id})}" method="post">
+    <table class="table table-bordered">
+      <tbody>
+      <tr>
+        <td>
+          Dates:
         </td>
-      </form>
-      <td>
-        <a th:href="@{/admin}">
-            <button class="btn">Back</button>
-        </a>
-      </td>
-    </tr>
-    <!-- </th:block> -->
+        <td>
+         <div class="input-daterange input-group" id="datepicker">
+         <input type="text" class="input-sm form-control" id="dateFrom" name="dateFrom" onchange="calc();" th:value="${reservation.dateFrom}"/>
+         <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+         <input type="text" class="input-sm form-control" id="dateTo" name="dateTo" onchange="calc();" th:value="${reservation.dateTo}"/>
+         </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Name:
+        </td>
+        <td>
+         <input type="text" class="form-control" name="name" maxlength="20" th:value="${reservation.name}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Surname:
+        </td>
+        <td>
+         <input type="text" class="form-control" name="surname" maxlength="20" th:value="${reservation.surname}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Address:
+        </td>
+        <td>
+         <input type="text" class="form-control" name="address" maxlength="20" th:value="${reservation.address}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Zip:
+        </td>
+        <td>
+         <input type="text" class="form-control" name="zip" maxlength="8" th:value="${reservation.zip}">
+        </td>
+      </tr>
+
+        <tr>
+          <td>
+            City:
+          </td>
+          <td>
+           <input type="text" class="form-control" name="city" maxlength="15" th:value="${reservation.city}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Mail:
+          </td>
+          <td>
+           <input type="mail" class="form-control" name="mail" maxlength="40" th:value="${reservation.mail}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Phone:
+          </td>
+          <td>
+           <input type="number" class="form-control" name="phone" maxlength="20" th:value="${reservation.phone}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Extras:
+          </td>
+          <td>
+            breakfast
+            <input th:text=${breakfast} id="breakfast" class="form-control input-md" name="breakfast" value="true" th:checked="${reservation.breakfast}" type="checkbox" onchange="calc();"/>
+            parking
+            <input th:text=${parking} id="parking" class="form-control input-md" name="parking" value="true" th:checked="${reservation.parking}" type="checkbox" onchange="calc();"/ />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Reservation cost:
+          </td>
+          <td>
+           <input type="number" class="form-control" id="price" name="price" th:value="${reservation.price}">
+          </td>
+        </tr>
     </tbody>
     </table>
-
-  </div>
+    <button type="submit" class="btn btn-outline-success">Update</button>
+</form>
+    <a th:href="@{/admin}">
+<button class="btn btn-outline-danger">Back</button>
+</a>
 </div>
+<div class="col">
+  <div id="my-calendar"></div>
+  <p style="text-align: center; color:#999">
+    <i><small>(dates occupied)</small></i>
+  </p>
+</div>
+  </div>
+  </div>
+
 </body>
 </html>
-
 <script type="application/javascript">
+var reservationId = $('#reservationid').val();
+var dateFromGetMonth = new Date(document.getElementById('dateFrom').value);
+var reservationMonth = dateFromGetMonth.getMonth() + 1;
+function calc(){
+var dateFrom = new Date(document.getElementById('dateFrom').value);
+var dateTo = new Date(document.getElementById('dateTo').value);
+var breakfast = document.getElementById('breakfast');
+var parking = document.getElementById('parking');
+var counter = 0;
+var price = 120;
+var breakfastCost;
+var parkingCost;
+dateTo.setDate(dateTo.getDate() + 1);
+
+while (dateFrom < dateTo){
+  dateFrom.setDate(dateFrom.getDate() + 1);
+  counter++;
+}
+
+if(breakfast.checked == true){
+  breakfastCost = counter * 5;
+}else {
+  breakfastCost = 0;
+}
+
+if(parking.checked == true){
+  parkingCost = counter * 5;
+}else {
+  parkingCost = 0;
+}
+
+document.getElementById('price').value = ((counter * price) + breakfastCost + parkingCost);
+};
   $(document).ready(function () {
-      $("#my-calendar").zabuto_calendar();
-  });
+    $('#datepicker.input-daterange').datepicker({
+      format: "yyyy-mm-dd",
+      weekStart: 1,
+      startDate: "today",
+      maxViewMode: 1,
+      autoclose: true,
+      toggleActive: true
+    });
+        $("#my-calendar").zabuto_calendar({
+language: "en",
+month: reservationMonth,
+ nav_icon: {
+      prev: '<i class="fa fa-chevron-circle-left"><img src="/images/left-chevron.png"></i>',
+      next: '<i class="fa fa-chevron-circle-right"><img src="/images/right-chevron.png"></i>'
+    },
+  ajax: {
+     url: "http://localhost:8085/admin/list/update/" + reservationId
+   },
+ cell_border: true
+        });
+    });
 </script>

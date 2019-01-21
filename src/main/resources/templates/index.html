@@ -103,19 +103,15 @@
   <br />
 
               <div class="form-group">
-                  <!-- <label class="control-label" for="date">Name:</label> -->
                   <input name="name" placeholder="Name" class="form-control input-md" required="" type="text" maxlength="20">
               </div>
               <div class="form-group">
-                  <!-- <label class="control-label" for="date">Name:</label> -->
                   <input name="surname" placeholder="Surname" class="form-control input-md" required="" type="text" maxlength="20">
               </div>
               <div class="form-group">
-                  <!-- <label class="control-label" for="date">Address:</label> -->
                   <input name="address" placeholder="Address" class="form-control input-md" required="" type="text" maxlength="20">
               </div>
               <div class="form-group">
-                  <!-- <label class="control-label" for="date">Address:</label> -->
                   <div class="input-group">
                     <div class="w-25 ml-4 mr-3">
                     <input name="zip" placeholder="Zip code" class="form-control input-md" required="" type="text" maxlength="8">
@@ -128,28 +124,43 @@
 
               </div>
               <div class="form-group">
-                  <!-- <label class="control-label" for="date">Address:</label> -->
                   <input name="phone" placeholder="Phone" class="form-control input-md" required="" type="text" maxlength="20">
               </div>
               <div class="form-group">
-                  <!-- <label class="control-label" for="date">Address:</label> -->
                   <input name="mail" placeholder="Mail" class="form-control input-md" required="" type="email" maxlength="40">
               </div>
 
+              <div class="row">
+                <div class="col-2">
+                    <input id="breakfast" class="form-control input-md" name="breakfast" value="true" type="checkbox" onchange="calc();"/>
+                </div>
+                <div class="col-10">
+                    <p>
+                      Breakfast (5 $ per day)
+                    </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-2">
+                    <input id="parking" class="form-control input-md" name="parking" value="true" type="checkbox" onchange="calc();"/>
+                </div>
+                <div class="col-10">
+                    <p>
+                      Parking (5 $ per day)
+                    </p>
+                </div>
+              </div>
+
+<br />
 <div class="row">
   <div class="col-2">
-
       <input class="form-control input-md" required="" type="checkbox"/>
-
   </div>
   <div class="col-10">
-
       <p>
         Agree to terms and conditions.
       </p>
-
   </div>
-
 </div>
 
           <br />
@@ -194,7 +205,11 @@
 function calc(){
 var dateFrom = new Date(document.getElementById('dateFrom').value);
 var dateTo = new Date(document.getElementById('dateTo').value);
+var breakfast = document.getElementById('breakfast');
+var parking = document.getElementById('parking');
 var counter = 0;
+var breakfastCost;
+var parkingCost;
 var price = 120;
 dateTo.setDate(dateTo.getDate() + 1);
 
@@ -203,7 +218,19 @@ while (dateFrom < dateTo){
   counter++;
 }
 
-document.getElementById('result').innerHTML = counter * price + ' $';
+if(breakfast.checked == true){
+  breakfastCost = counter * 5;
+}else {
+  breakfastCost = 0;
+}
+
+if(parking.checked == true){
+  parkingCost = counter * 5;
+}else {
+  parkingCost = 0;
+}
+
+document.getElementById('result').innerHTML = ((counter * price) + breakfastCost + parkingCost) + ' $';
 };
 
     $(document).ready(function () {

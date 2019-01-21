@@ -15,4 +15,6 @@ public interface IReservationSingleService {
 
 	List<ReservationSingle> findReservationSingleStartMonth(LocalDate date);
 
+	List<ReservationSingle> getAllSingleReservations();
+
 }

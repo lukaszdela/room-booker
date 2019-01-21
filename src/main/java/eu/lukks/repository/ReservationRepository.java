@@ -15,7 +15,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>{
 	
 	@Query("select e from Reservation e where (e.dateFrom >= :dateFrom) and (e.dateTo <= :dateTo)")
     List<Reservation> searchReservationsByDate(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
-
+	
 	@Query("select e from Reservation e order by e.id desc")
 	List<Reservation> listNumberedAdminReservations(Pageable pageable);
+
 }

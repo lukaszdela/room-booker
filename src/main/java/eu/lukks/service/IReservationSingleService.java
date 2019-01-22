@@ -17,4 +17,10 @@ public interface IReservationSingleService {
 
 	List<ReservationSingle> getAllSingleReservations();
 
+	String daysReservedForNewReservation(LocalDate dateFrom, LocalDate dateTo);
+
+	LocalDate parsedDayToday();
+
+	LocalDate parsedDayDate(LocalDate date);
+
 }

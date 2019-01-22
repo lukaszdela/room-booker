@@ -18,9 +18,9 @@
         </td>
         <td>
          <div class="input-daterange input-group" id="datepicker">
-         <input type="text" class="input-sm form-control" id="dateFrom" name="dateFrom" onchange="calc();" th:value="${reservation.dateFrom}"/>
+         <input type="text" class="input-sm form-control" id="dateFrom" name="dateFrom" onchange="calcUpdate();" th:value="${reservation.dateFrom}"/>
          <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-         <input type="text" class="input-sm form-control" id="dateTo" name="dateTo" onchange="calc();" th:value="${reservation.dateTo}"/>
+         <input type="text" class="input-sm form-control" id="dateTo" name="dateTo" onchange="calcUpdate();" th:value="${reservation.dateTo}"/>
          </div>
         </td>
       </tr>
@@ -86,10 +86,27 @@
             Extras:
           </td>
           <td>
-            breakfast
-            <input th:text=${breakfast} id="breakfast" class="form-control input-md" name="breakfast" value="true" th:checked="${reservation.breakfast}" type="checkbox" onchange="calc();"/>
-            parking
-            <input th:text=${parking} id="parking" class="form-control input-md" name="parking" value="true" th:checked="${reservation.parking}" type="checkbox" onchange="calc();"/ />
+            <div class="container">
+              <table class="table table-borderless">
+                <tr>
+                  <td>
+                    <input th:text=${breakfast} id="breakfast" class="form-control input-md" name="breakfast" value="true" th:checked="${reservation.breakfast}" type="checkbox" onchange="calcUpdate();"/>
+                  </td>
+                  <td>
+                    breakfast
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input th:text=${parking} id="parking" class="form-control input-md" name="parking" value="true" th:checked="${reservation.parking}" type="checkbox" onchange="calcUpdate();"/ />
+                  </td>
+                  <td>
+                    parking
+                  </td>
+                </tr>
+              </table>
+            </div>
+            </div>
           </td>
         </tr>
         <tr>
@@ -123,36 +140,6 @@
 var reservationId = $('#reservationid').val();
 var dateFromGetMonth = new Date(document.getElementById('dateFrom').value);
 var reservationMonth = dateFromGetMonth.getMonth() + 1;
-function calc(){
-var dateFrom = new Date(document.getElementById('dateFrom').value);
-var dateTo = new Date(document.getElementById('dateTo').value);
-var breakfast = document.getElementById('breakfast');
-var parking = document.getElementById('parking');
-var counter = 0;
-var price = 120;
-var breakfastCost;
-var parkingCost;
-dateTo.setDate(dateTo.getDate() + 1);
-
-while (dateFrom < dateTo){
-  dateFrom.setDate(dateFrom.getDate() + 1);
-  counter++;
-}
-
-if(breakfast.checked == true){
-  breakfastCost = counter * 5;
-}else {
-  breakfastCost = 0;
-}
-
-if(parking.checked == true){
-  parkingCost = counter * 5;
-}else {
-  parkingCost = 0;
-}
-
-document.getElementById('price').value = ((counter * price) + breakfastCost + parkingCost);
-};
   $(document).ready(function () {
     $('#datepicker.input-daterange').datepicker({
       format: "yyyy-mm-dd",

@@ -167,7 +167,7 @@ public class ReservationService implements IReservationService{
         	stringBuilder.append(date);
         	stringBuilder.append(", ");
         }
-		
+		stringBuilder.deleteCharAt(stringBuilder.length() - 2);
         
 		return stringBuilder.toString();
 	}
@@ -199,6 +199,31 @@ public class ReservationService implements IReservationService{
 			reservationCost = reservationCost + (daysCounter * priceParking);
 		}
 		return reservationCost;
+	}
+	
+	@Override
+	public Reservation updateReservation(Reservation reservation, Reservation updatedReservation) {
+		reservation.setDateFrom(updatedReservation.getDateFrom());
+		reservation.setDateTo(updatedReservation.getDateTo());
+		reservation.setName(updatedReservation.getName());
+		reservation.setSurname(updatedReservation.getSurname());
+		reservation.setAddress(updatedReservation.getAddress());
+		reservation.setZip(updatedReservation.getZip());
+		reservation.setCity(updatedReservation.getCity());
+		reservation.setPhone(updatedReservation.getPhone());
+		reservation.setMail(updatedReservation.getMail());
+		reservation.setPrice(updatedReservation.getPrice());
+		if(updatedReservation.getBreakfast() == true) {
+			reservation.setBreakfast(true);
+		}else {
+			reservation.setBreakfast(false);
+		}
+		if(updatedReservation.getParking() == true) {
+			reservation.setParking(true);
+		}else {
+			reservation.setParking(false);
+		}
+		return reservation;
 	}
 	
 }

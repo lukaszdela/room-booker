@@ -1,6 +1,7 @@
 package eu.lukks.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,37 @@ public class ReservationSingleService implements IReservationSingleService{
 		return trigger;
 	}
 	
+	@Override
+	public String daysReservedForNewReservation(LocalDate dateFrom, LocalDate dateTo) {
+		StringBuilder stringBuilder = new StringBuilder();
+		while (dateFrom.isBefore(dateTo.plusDays(1))) {
+			if (reservationSingleRepository.getIdByDate(dateFrom) != null) {
+				stringBuilder.append(dateFrom);
+				stringBuilder.append(", ");
+			}
+			dateFrom = dateFrom.plusDays(1);
+		}
+		stringBuilder.deleteCharAt(stringBuilder.length() - 2);
+		return stringBuilder.toString();
+	}
 	
+	@Override
+	public LocalDate parsedDayToday() {
+		LocalDate actualDate = LocalDate.now();
+		LocalDate firstDayActualDate = actualDate.withDayOfMonth(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String text = firstDayActualDate.format(formatter);
+		return LocalDate.parse(text, formatter);
+	}
+	
+	@Override
+	public LocalDate parsedDayDate(LocalDate date) {
+		LocalDate actualDate = date;
+		LocalDate firstDayActualDate = actualDate.withDayOfMonth(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String text = firstDayActualDate.format(formatter);
+		return LocalDate.parse(text, formatter);
+	}
 
 	
 }

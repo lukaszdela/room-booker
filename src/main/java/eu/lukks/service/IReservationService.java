@@ -36,6 +36,9 @@ public interface IReservationService {
 
 	Integer calculatePriceForNewReservation(Reservation reservation);
 
+	Reservation updateReservation(Reservation reservation, Reservation updatedReservation);
+
+
 
 
 }

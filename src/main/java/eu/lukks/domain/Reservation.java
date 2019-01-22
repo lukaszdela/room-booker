@@ -2,11 +2,15 @@ package eu.lukks.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -48,6 +52,13 @@ public class Reservation implements Serializable{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate dateTo;
+	
+	@ManyToOne
+	@JoinColumn(name="room_id")
+	private Room room;
+	
+	@OneToMany(mappedBy="reservation")
+	private List<ReservationSingle> reservationSingles;
 	
 	
 	

@@ -13,8 +13,6 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +32,6 @@ public class ReservationSingle implements Serializable {
 	private Long id;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
 	private Boolean badge;
@@ -43,5 +40,9 @@ public class ReservationSingle implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="reservation_id")
 	private Reservation reservation;
+	
+	@ManyToOne
+	@JoinColumn(name="room_id")
+	private Room room;
 
 }

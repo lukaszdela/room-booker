@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import eu.lukks.domain.Reservation;
 
+@Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long>{
 	
 	@Query("select e from Reservation e where (e.dateFrom >= :dateFrom) and (e.dateTo <= :dateTo)")

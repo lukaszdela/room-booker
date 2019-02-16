@@ -5,11 +5,11 @@
 </head>
 <body>
 
-  <div class="container w-50 mt-5">
+  <div class="container w-75 mt-5">
     <div class="row">
       <div class="col">
         <input hidden id="reservationid" th:value="${reservation.id}" />
-    <form th:action="@{/admin/reservation/update/save/{reservationId} (reservationId=${reservation.id})}" method="post">
+    <form th:action="@{/admin/reservation/update/save/{reservationId}/{roomId} (reservationId=${reservation.id}, roomId=${reservation.room.id})}" method="post">
     <table class="table table-bordered">
       <tbody>
       <tr>
@@ -144,7 +144,7 @@ var reservationMonth = dateFromGetMonth.getMonth() + 1;
     $('#datepicker.input-daterange').datepicker({
       format: "yyyy-mm-dd",
       weekStart: 1,
-      startDate: "today",
+      // startDate: "today",
       maxViewMode: 1,
       autoclose: true,
       toggleActive: true

@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:include="@{header.html}"></div>
+
+<title>Room booker by Luc | admin panel</title>
+</head>
+<body>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-8 p-3">
+        <th:block th:if="${msgStatus}">
+               <div class="row justify-content-md-center">
+               <div class="alert alert-warning" role="alert">
+                   <br>
+                   <p align="center" th:text="${msgStatus}"></p>
+               </div>
+               </div>
+           </th:block>
+        <table id="roomResults" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+
+          <th scope="col">Id</th>
+          <th scope="col">Title</th>
+          <th scope="col">Persons</th>
+          <th scope="col">Price</th>
+          <th scope="col"></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="room : ${rooms}">
+        <tr>
+          <td th:text="${room.id}">
+          </td>
+          <td th:text="${room.title}">
+          </td>
+          <td th:text="${room.personNumber}">
+          </td>
+          <td th:text="${room.dayPrice}">
+          </td>
+          <td>
+            <div class="dropdown">
+                                    <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                            id="dropdownBookMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">Options
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownBookMenuButton">
+                                        <a class="dropdown-item" th:href="@{/admin/}">show</a>
+                                        <a class="dropdown-item" th:href="@{/admin/}">update</a>
+                                        <a class="dropdown-item" onclick="return confirm('Are you sure you want to delete this reservation?');" th:href="@{/admin}">delete</a>
+                                    </div>
+                                </div>
+          </td>
+        </tr>
+        </th:block>
+        </tbody>
+        </table>
+
+      </div>
+
+      <div class="col-4 p-3 border-left">
+        <div class="w-75">
+          <a th:href="@{/admin/room/add}">
+          <button class="btn btn-primary">Add new room</button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+</body>
+</html>
+<script type="application/javascript">
+$(document).ready(function () {
+  $('#roomResults').DataTable({
+  "columnDefs": [
+    { "orderable": false, "targets": 4 }
+  ]
+});
+  $('.dataTables_length').addClass('bs-select');
+});
+</script>

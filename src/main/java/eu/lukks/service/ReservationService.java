@@ -4,14 +4,19 @@ package eu.lukks.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+
+import javax.activation.DataContentHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import eu.lukks.domain.Reservation;
+import eu.lukks.domain.ReservationSingle;
+import eu.lukks.domain.Room;
 import eu.lukks.repository.ReservationRepository;
 import eu.lukks.repository.ReservationSingleRepository;
 @Service
@@ -76,46 +81,49 @@ public class ReservationService implements IReservationService{
 	}
 	
 	@Override
-	public Boolean checkByDateSingleInReservations(LocalDate newDateFrom, LocalDate newDateTo, LocalDate reservationDateFrom, LocalDate reservationDateTo) {
+	public Boolean checkByDateSingleInReservations(Room room, Reservation reservation, LocalDate newDateFrom, LocalDate newDateTo) {
+		List<ReservationSingle> reservationSinglesRoom = room.getReservationSingles(); 
+		List<ReservationSingle> reservationSinglesReservation = reservation.getReservationSingles();
+		
+		List<LocalDate> reservationSinglesReservationsDates = new ArrayList<LocalDate>();
+		for(ReservationSingle reservationSingle: reservationSinglesReservation) {
+			reservationSinglesReservationsDates.add(reservationSingle.getDate());
+		}
+		
+		List<LocalDate> reservationSinglesRoomDates = new ArrayList<LocalDate>();
+		for(ReservationSingle reservationSingle: reservationSinglesRoom) {
+			reservationSinglesRoomDates.add(reservationSingle.getDate());
+		}
+		
+		Collection<LocalDate> similarDays = new HashSet<LocalDate>(reservationSinglesReservationsDates);
+		Collection<LocalDate> differentDays = new HashSet<LocalDate>();
+		
+		differentDays.addAll(reservationSinglesReservationsDates);
+		differentDays.addAll(reservationSinglesRoomDates);
+		
+		similarDays.retainAll(reservationSinglesRoomDates);
+		differentDays.removeAll(similarDays);
+			
 		LocalDate counterDate = newDateFrom;
-		LocalDate counterDate2 = reservationDateFrom;
-		LocalDate counterDate3 = newDateFrom;
 		Boolean trigger = false;
-		Collection<LocalDate> updateDates = new ArrayList<LocalDate>();
+		
+		List<LocalDate> updateDates = new ArrayList<LocalDate>();
 		while (counterDate.isBefore(newDateTo.plusDays(1))) {
 			updateDates.add(counterDate);
 			counterDate = counterDate.plusDays(1);
 		}
-		Collection<LocalDate> reservationDates = new ArrayList<LocalDate>();
-		while (counterDate2.isBefore(reservationDateTo.plusDays(1))) {
-			reservationDates.add(counterDate2);
-			counterDate2 = counterDate2.plusDays(1);
-		}
-		Collection<LocalDate> notNullDates = new ArrayList<LocalDate>();
-		while (counterDate3.isBefore(newDateTo.plusDays(1))) {
-			if ((reservationSingleRepository.getIdByDate(counterDate3) != null)) {
-				notNullDates.add(counterDate3);
-		}
-			counterDate3 = counterDate3.plusDays(1);
-		}
-		Collection<LocalDate> equalDates = new ArrayList<LocalDate>();
-		for(LocalDate updateDate: updateDates) {
-			for(LocalDate reservationDate: reservationDates) {
-				if(updateDate.equals(reservationDate)) {
-					equalDates.add(reservationDate);
-				}
-			}
-		}
-		
-		Collection<LocalDate> similarDays = new HashSet<LocalDate>(notNullDates);
-        Collection<LocalDate> differentDays = new HashSet<LocalDate>();
-        differentDays.addAll(notNullDates);
-        differentDays.addAll(equalDates);
+	
+        List<LocalDate> equalDays = new ArrayList<LocalDate>();
+        for(LocalDate roomDate: differentDays) {
+        	for(LocalDate updateDate: updateDates) {
+        		if(roomDate.equals(updateDate)) {
+        			equalDays.add(roomDate);
+        		}
+        	}
+        }
 
-        similarDays.retainAll(equalDates);
-        differentDays.removeAll(similarDays);
         
-        if(differentDays.size()>0) {
+        if(equalDays.size()>0) {
         	trigger = true;
         }
 		
@@ -123,47 +131,49 @@ public class ReservationService implements IReservationService{
 	}
 	
 	@Override
-	public String checkByDateSingleInReservationsBookedDays(LocalDate newDateFrom, LocalDate newDateTo, LocalDate reservationDateFrom, LocalDate reservationDateTo) {
+	public String checkByDateSingleInReservationsBookedDays(Room room, Reservation reservation, LocalDate newDateFrom, LocalDate newDateTo) {
+		List<ReservationSingle> reservationSinglesRoom = room.getReservationSingles(); 
+		List<ReservationSingle> reservationSinglesReservation = reservation.getReservationSingles();
+		
+		List<LocalDate> reservationSinglesReservationsDates = new ArrayList<LocalDate>();
+		for(ReservationSingle reservationSingle: reservationSinglesReservation) {
+			reservationSinglesReservationsDates.add(reservationSingle.getDate());
+		}
+		
+		List<LocalDate> reservationSinglesRoomDates = new ArrayList<LocalDate>();
+		for(ReservationSingle reservationSingle: reservationSinglesRoom) {
+			reservationSinglesRoomDates.add(reservationSingle.getDate());
+		}
+		
+		Collection<LocalDate> similarDays = new HashSet<LocalDate>(reservationSinglesReservationsDates);
+		Collection<LocalDate> differentDays = new HashSet<LocalDate>();
+		
+		differentDays.addAll(reservationSinglesReservationsDates);
+		differentDays.addAll(reservationSinglesRoomDates);
+		
+		similarDays.retainAll(reservationSinglesRoomDates);
+		differentDays.removeAll(similarDays);
+			
 		LocalDate counterDate = newDateFrom;
-		LocalDate counterDate2 = reservationDateFrom;
-		LocalDate counterDate3 = newDateFrom;
-		Collection<LocalDate> updateDates = new ArrayList<LocalDate>();
+		
+		List<LocalDate> updateDates = new ArrayList<LocalDate>();
 		while (counterDate.isBefore(newDateTo.plusDays(1))) {
 			updateDates.add(counterDate);
 			counterDate = counterDate.plusDays(1);
 		}
-		Collection<LocalDate> reservationDates = new ArrayList<LocalDate>();
-		while (counterDate2.isBefore(reservationDateTo.plusDays(1))) {
-			reservationDates.add(counterDate2);
-			counterDate2 = counterDate2.plusDays(1);
-		}
-		Collection<LocalDate> notNullDates = new ArrayList<LocalDate>();
-		while (counterDate3.isBefore(newDateTo.plusDays(1))) {
-			if ((reservationSingleRepository.getIdByDate(counterDate3) != null)) {
-				notNullDates.add(counterDate3);
-		}
-			counterDate3 = counterDate3.plusDays(1);
-		}
-		Collection<LocalDate> equalDates = new ArrayList<LocalDate>();
-		for(LocalDate updateDate: updateDates) {
-			for(LocalDate reservationDate: reservationDates) {
-				if(updateDate.equals(reservationDate)) {
-					equalDates.add(reservationDate);
-				}
-			}
-		}
-		
-		Collection<LocalDate> similarDays = new HashSet<LocalDate>(notNullDates);
-        Collection<LocalDate> differentDays = new HashSet<LocalDate>();
-        differentDays.addAll(notNullDates);
-        differentDays.addAll(equalDates);
-
-        similarDays.retainAll(equalDates);
-        differentDays.removeAll(similarDays);
+	
+        List<LocalDate> equalDays = new ArrayList<LocalDate>();
+        for(LocalDate roomDate: differentDays) {
+        	for(LocalDate updateDate: updateDates) {
+        		if(roomDate.equals(updateDate)) {
+        			equalDays.add(roomDate);
+        		}
+        	}
+        }
         
         StringBuilder stringBuilder = new StringBuilder();
         
-        for(LocalDate date: differentDays) {
+        for(LocalDate date: equalDays) {
         	stringBuilder.append(date);
         	stringBuilder.append(", ");
         }

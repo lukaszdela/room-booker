@@ -12,6 +12,7 @@ import lombok.Setter;
 public class RoomDto {
 	
 	private Long id;
+	private String title;
 	private Long dayPrice;
 	private String shortDescription;
 	private String description;

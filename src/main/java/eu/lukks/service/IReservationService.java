@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 import eu.lukks.domain.Reservation;
+import eu.lukks.domain.Room;
 
 public interface IReservationService {
 	
@@ -26,17 +27,17 @@ public interface IReservationService {
 
 	List<Reservation> searchReservationsByDate(LocalDate dateFrom, LocalDate dateTo);
 
-	Boolean checkByDateSingleInReservations(LocalDate newDateFrom, LocalDate newDateTo, LocalDate reservationDateFrom,
-			LocalDate reservationDateTo);
-
-	String checkByDateSingleInReservationsBookedDays(LocalDate newDateFrom, LocalDate newDateTo,
-			LocalDate reservationDateFrom, LocalDate reservationDateTo);
-
 	List<LocalDate> datesListFromDateToDate(LocalDate dateFrom, LocalDate dateTo);
 
 	Integer calculatePriceForNewReservation(Reservation reservation);
 
 	Reservation updateReservation(Reservation reservation, Reservation updatedReservation);
+
+	Boolean checkByDateSingleInReservations(Room room, Reservation reservation, LocalDate newDateFrom,
+			LocalDate newDateTo);
+
+	String checkByDateSingleInReservationsBookedDays(Room room, Reservation reservation, LocalDate newDateFrom,
+			LocalDate newDateTo);
 
 
 

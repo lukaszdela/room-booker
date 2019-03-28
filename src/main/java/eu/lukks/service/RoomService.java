@@ -34,6 +34,16 @@ public class RoomService implements IRoomService{
 		return roomRepository.findById(id).orElse(null);
 	}
 	
+	@Override
+	public void saveRoom(Room room) {
+		roomRepository.save(room);
+	}
+	
+	@Override
+	public void deleteRoom(Room room) {
+		roomRepository.delete(room);
+	}
+	
 	
 
 }

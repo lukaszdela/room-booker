@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import eu.lukks.domain.Reservation;
-import eu.lukks.domain.ReservationSingle;
+import eu.lukks.domain.ReservationDto;
 import eu.lukks.domain.Room;
-import eu.lukks.domain.RoomDto;
 import eu.lukks.service.IReservationService;
 import eu.lukks.service.IReservationSingleService;
 import eu.lukks.service.IRoomService;
@@ -43,49 +42,32 @@ public class AdminController {
 	@GetMapping("/admin/reservations")
 	public String getAllReservationsAdmin(Model model) {
 		List<Reservation> reservations = iReservationService.listNumberedAdminReservations(PageRequest.of(0,20));
-		model.addAttribute("reservations", reservations);
+		List<ReservationDto> reservationDtos = new ArrayList<ReservationDto>();
+		for(Reservation reservation: reservations) {
+			ReservationDto reservationDto = new ReservationDto();
+			reservationDto.setId(reservation.getId());
+			reservationDto.setName(reservation.getName());
+			reservationDto.setSurname(reservation.getSurname());
+			reservationDto.setAddress(reservation.getAddress());
+			reservationDto.setZip(reservation.getZip());
+			reservationDto.setCity(reservation.getCity());
+			reservationDto.setPhone(reservation.getPhone());
+			reservationDto.setMail(reservation.getMail());
+			reservationDto.setPrice(reservation.getPrice());
+			reservationDto.setRoomTitle(reservation.getRoomTitle());
+			reservationDto.setBreakfast(reservation.getBreakfast());
+			reservationDto.setParking(reservation.getParking());
+			reservationDto.setDateFrom(reservation.getDateFrom());
+			reservationDto.setDateTo(reservation.getDateTo());
+			reservationDto.setRoomId(reservation.getRoom().getId());
+			reservationDtos.add(reservationDto);
+		}
+		model.addAttribute("reservations", reservationDtos);
 		return "admin";
 	}
 	
 
-	@GetMapping("/admin/rooms")
-	public String getAllRooms(Model model) {
-		List<Room> rooms = iRoomSrevice.getAllRooms();
-		List<RoomDto> roomsDto = new ArrayList<RoomDto>();
-		for(Room room: rooms) {
-			RoomDto roomDto = new RoomDto();
-			roomDto.setId(room.getId());
-			roomDto.setTitle(room.getTitle());
-			roomDto.setShortDescription(room.getShortDescription());
-			roomDto.setDescription(room.getDescription());
-			roomDto.setPersonNumber(room.getPersonNumber());
-			roomDto.setDayPrice(room.getDayPrice());
-			roomsDto.add(roomDto);
-		}
-		model.addAttribute("rooms", roomsDto);
-		return "rooms";
-	}
 	
-	@PostMapping("/admin/room/add/new")
-	public String createNewRoom(@ModelAttribute Room room, Model model) {
-		iRoomSrevice.addNewRoom(room);
-		List<Room> roomsget = iRoomSrevice.getAllRooms();
-		List<RoomDto> roomsDto = new ArrayList<RoomDto>();
-		for(Room room1: roomsget) {
-			RoomDto roomDto = new RoomDto();
-			roomDto.setId(room1.getId());
-			roomDto.setTitle(room1.getTitle());
-			roomDto.setShortDescription(room1.getShortDescription());
-			roomDto.setDescription(room1.getDescription());
-			roomDto.setPersonNumber(room1.getPersonNumber());
-			roomDto.setDayPrice(room1.getDayPrice());
-			roomsDto.add(roomDto);
-		}
-		model.addAttribute("rooms", roomsDto);
-		String msg = String.format("New room has been created.");
-        model.addAttribute("msgStatus", msg);
-        return "rooms";
-	}
 	
 	@GetMapping("/admin/reservation/delete/{reservationId}/{roomId}")
 	public String deleteReservationById(@PathVariable("reservationId")Long reservationId,
@@ -153,7 +135,25 @@ public class AdminController {
 	public String showReservationById(@PathVariable("reservationId")Long reservationId,
 										Model model) {
 		Reservation reservation = iReservationService.readReservationById(reservationId);
-		model.addAttribute("reservation", reservation);
+		ReservationDto reservationDto = new ReservationDto();
+			reservationDto.setId(reservation.getId());
+			reservationDto.setName(reservation.getName());
+			reservationDto.setSurname(reservation.getSurname());
+			reservationDto.setAddress(reservation.getAddress());
+			reservationDto.setZip(reservation.getZip());
+			reservationDto.setCity(reservation.getCity());
+			reservationDto.setPhone(reservation.getPhone());
+			reservationDto.setMail(reservation.getMail());
+			reservationDto.setPrice(reservation.getPrice());
+			reservationDto.setRoomTitle(reservation.getRoomTitle());
+			reservationDto.setBreakfast(reservation.getBreakfast());
+			reservationDto.setParking(reservation.getParking());
+			reservationDto.setDateFrom(reservation.getDateFrom());
+			reservationDto.setDateTo(reservation.getDateTo());
+			reservationDto.setRoomId(reservation.getRoom().getId());
+		
+		
+		model.addAttribute("reservation", reservationDto);
 		return "show";
 	}
 
@@ -162,7 +162,27 @@ public class AdminController {
 									@RequestParam("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo,
 									Model model) {
 		List<Reservation> reservations = iReservationService.searchReservationsByDate(dateFrom, dateTo);
-		model.addAttribute("reservations", reservations);
+		List<ReservationDto> reservationDtos = new ArrayList<ReservationDto>();
+		for(Reservation reservation: reservations) {
+			ReservationDto reservationDto = new ReservationDto();
+			reservationDto.setId(reservation.getId());
+			reservationDto.setName(reservation.getName());
+			reservationDto.setSurname(reservation.getSurname());
+			reservationDto.setAddress(reservation.getAddress());
+			reservationDto.setZip(reservation.getZip());
+			reservationDto.setCity(reservation.getCity());
+			reservationDto.setPhone(reservation.getPhone());
+			reservationDto.setMail(reservation.getMail());
+			reservationDto.setPrice(reservation.getPrice());
+			reservationDto.setRoomTitle(reservation.getRoomTitle());
+			reservationDto.setBreakfast(reservation.getBreakfast());
+			reservationDto.setParking(reservation.getParking());
+			reservationDto.setDateFrom(reservation.getDateFrom());
+			reservationDto.setDateTo(reservation.getDateTo());
+			reservationDto.setRoomId(reservation.getRoom().getId());
+			reservationDtos.add(reservationDto);
+		}
+		model.addAttribute("reservations", reservationDtos);
 		return "admin";
 	}
 
@@ -170,7 +190,27 @@ public class AdminController {
 	public String searchReservationsByNumber(@RequestParam("lastReservations") Integer number, Model model) {
 		if(number>0) {
 			List<Reservation> reservations = iReservationService.listNumberedAdminReservations(PageRequest.of(0,number));
-			model.addAttribute("reservations", reservations);	
+			List<ReservationDto> reservationDtos = new ArrayList<ReservationDto>();
+			for(Reservation reservation: reservations) {
+				ReservationDto reservationDto = new ReservationDto();
+				reservationDto.setId(reservation.getId());
+				reservationDto.setName(reservation.getName());
+				reservationDto.setSurname(reservation.getSurname());
+				reservationDto.setAddress(reservation.getAddress());
+				reservationDto.setZip(reservation.getZip());
+				reservationDto.setCity(reservation.getCity());
+				reservationDto.setPhone(reservation.getPhone());
+				reservationDto.setMail(reservation.getMail());
+				reservationDto.setPrice(reservation.getPrice());
+				reservationDto.setRoomTitle(reservation.getRoomTitle());
+				reservationDto.setBreakfast(reservation.getBreakfast());
+				reservationDto.setParking(reservation.getParking());
+				reservationDto.setDateFrom(reservation.getDateFrom());
+				reservationDto.setDateTo(reservation.getDateTo());
+				reservationDto.setRoomId(reservation.getRoom().getId());
+				reservationDtos.add(reservationDto);
+			}
+			model.addAttribute("reservations", reservationDtos);	
 		}else {
 			String msg = String.format("Number latest reservations must be above 0");
 	        model.addAttribute("msg", msg);

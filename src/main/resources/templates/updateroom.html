@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:include="@{header.html}"></div>
+
+<title th:text="${'Room booker by Luc | add new room '}"></title>
+</head>
+<body>
+
+  <div class="container w-75 mt-5">
+      <div class="col">
+    <form th:action="@{/admin/room/update/save/{roomId} (roomId=${room.id})}" method="post">
+    <table class="table table-borderless">
+      <tbody>
+      <tr>
+        <td>
+          Title:
+        </td>
+        <td>
+         <input required type="text" class="input-sm form-control" name="title" th:value="${room.title}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Short description:
+            <br />
+          (max 200 char)
+        </td>
+        <td>
+           <textarea required class="form-control" name="shortDescription" rows="3" maxlength="200" th:field="*{room.shortDescription}"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Description:
+        </td>
+        <td>
+         <textarea required class="form-control" name="description" rows="7" th:field="*{room.description}"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Person number:
+        </td>
+        <td>
+         <input required type="number" class="form-control" name="personNumber" th:value="${room.personNumber}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Day price:
+        </td>
+        <td>
+         <input required type="number" class="form-control" name="dayPrice" th:value="${room.dayPrice}">
+        </td>
+      </tr>
+    </tbody>
+    </table>
+    <button type="submit" class="btn btn-outline-success">Update</button>
+</form>
+    <a th:href="@{/admin/rooms}">
+<button class="btn btn-outline-danger">Back</button>
+</a>
+</div>
+  </div>
+
+</body>
+</html>

@@ -12,4 +12,8 @@ public interface IRoomService {
 
 	Room getRoomById(Long id);
 
+	void saveRoom(Room room);
+
+	void deleteRoom(Room room);
+
 }

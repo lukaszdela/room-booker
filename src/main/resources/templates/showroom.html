@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:include="@{header.html}"></div>
+
+<title th:text="${'Room booker by Luc | show room ' + room.id}"></title>
+</head>
+<body>
+
+  <div class="container w-25 mt-5">
+    <div class="row">
+      <div class="col">
+    <table class="table table-bordered">
+    <tbody>
+    <tr>
+      <td>
+        Title:
+      </td>
+      <td th:text="${room.title}">
+      </td>
+      </tr>
+      <tr>
+        <td>
+          Short description:
+        </td>
+        <td th:text="${room.shortDescription}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Description:
+        </td>
+        <td th:text="${room.description}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Person number:
+        </td>
+        <td th:text="${room.personNumber}">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Day price:
+        </td>
+        <td th:text="${room.dayPrice}">
+        </td>
+      </tr>
+    </tbody>
+    </table>
+    <a th:href="@{/admin}">
+<button class="btn btn-outline-danger">Back</button>
+</a>
+  </div>
+</div>
+</div>
+</body>
+</html>

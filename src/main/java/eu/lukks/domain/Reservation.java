@@ -42,6 +42,7 @@ public class Reservation implements Serializable{
 	private String phone;
 	private String mail;
 	private Integer price;
+	private String roomTitle;
 	private Boolean breakfast = false;
 	private Boolean parking = false;
 	

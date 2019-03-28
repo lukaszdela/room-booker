@@ -47,6 +47,7 @@ public class PublicController {
 			if (!iReservationSingleService.checkByDate(roomById, reservation)) {
 				reservation.setPrice(iReservationService.calculatePriceForNewReservation(reservation));
 				reservation.setRoom(roomById);
+				reservation.setRoomTitle(roomById.getTitle());
 				iReservationService.saveReservation(reservation);
 				iReservationSingleService.saveReservationSingleDay(roomById, reservation);
 				String msg = String.format("Room is reserved from " + reservation.getDateFrom() + " to " + reservation.getDateTo());

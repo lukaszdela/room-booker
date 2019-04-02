@@ -53,6 +53,7 @@ public class RoomController {
 			roomDto.setDescription(room.getDescription());
 			roomDto.setPersonNumber(room.getPersonNumber());
 			roomDto.setDayPrice(room.getDayPrice());
+			roomDto.setStatus(room.getStatus());
 			roomsDto.add(roomDto);
 		}
 		model.addAttribute("rooms", roomsDto);
@@ -61,6 +62,7 @@ public class RoomController {
 	
 	@PostMapping("/admin/room/add/new")
 	public String createNewRoom(@ModelAttribute Room room, Model model) {
+		room.setStatus(false);
 		iRoomSrevice.addNewRoom(room);
 		List<Room> roomsget = iRoomSrevice.getAllRooms();
 		List<RoomDto> roomsDto = new ArrayList<RoomDto>();
@@ -72,6 +74,7 @@ public class RoomController {
 			roomDto.setDescription(room1.getDescription());
 			roomDto.setPersonNumber(room1.getPersonNumber());
 			roomDto.setDayPrice(room1.getDayPrice());
+			roomDto.setStatus(room.getStatus());
 			roomsDto.add(roomDto);
 		}
 		model.addAttribute("rooms", roomsDto);
@@ -105,6 +108,8 @@ public class RoomController {
 			reservationDto.setRoomId(reservation.getRoom().getId());
 			reservationDtos.add(reservationDto);
 		}
+		String msg = String.format("Reservations for room " + roomById.getTitle() + "." );
+	    model.addAttribute("msgStatus", msg);
 		model.addAttribute("reservations", reservationDtos);
 		return "admin";
 	}
@@ -121,6 +126,7 @@ public class RoomController {
 			roomDto.setDescription(roomById.getDescription());
 			roomDto.setPersonNumber(roomById.getPersonNumber());
 			roomDto.setDayPrice(roomById.getDayPrice());
+			roomDto.setStatus(roomById.getStatus());
 		
 		model.addAttribute("room", roomDto);
 		return "showroom";
@@ -165,8 +171,11 @@ public class RoomController {
 			roomDto.setDescription(room.getDescription());
 			roomDto.setPersonNumber(room.getPersonNumber());
 			roomDto.setDayPrice(room.getDayPrice());
+			roomDto.setStatus(room.getStatus());
 			roomsDto.add(roomDto);
 		}
+		String msg = String.format("Room " + updatedRoom.getTitle() + " has been updated." );
+	    model.addAttribute("msgStatus", msg);
 		model.addAttribute("rooms", roomsDto);
 		return "rooms";
 	}
@@ -176,6 +185,7 @@ public class RoomController {
 								Model model){
 	
 		Room roomById = iRoomSrevice.getRoomById(roomId);
+		String roomTitle = roomById.getTitle();
 		List<Reservation> reservationsRoomById = roomById.getReservations();
 		List<Photo> photosRoomById = roomById.getPhotos();
 		
@@ -204,11 +214,66 @@ public class RoomController {
 	roomDto.setDescription(room.getDescription());
 	roomDto.setPersonNumber(room.getPersonNumber());
 	roomDto.setDayPrice(room.getDayPrice());
+	roomDto.setStatus(room.getStatus());
 	roomsDto.add(roomDto);
-		}				
+		}			
+	String msg = String.format("Room " + roomTitle + " has been deleted." );
+    model.addAttribute("msgStatus", msg);
 	model.addAttribute("rooms", roomsDto);
 	return "rooms";
 								}
+	
+	@GetMapping("/admin/room/enable/{roomId}")
+	public String enableRoom(@PathVariable("roomId")Long roomId,
+								Model model) {
+		Room roomById = iRoomSrevice.getRoomById(roomId);
+		roomById.setStatus(true);
+		iRoomSrevice.saveRoom(roomById);
+		
+		List<Room> rooms = iRoomSrevice.getAllRooms();
+		List<RoomDto> roomsDto = new ArrayList<RoomDto>();
+		for(Room room: rooms) {
+		RoomDto roomDto = new RoomDto();
+		roomDto.setId(room.getId());
+		roomDto.setTitle(room.getTitle());
+		roomDto.setShortDescription(room.getShortDescription());
+		roomDto.setDescription(room.getDescription());
+		roomDto.setPersonNumber(room.getPersonNumber());
+		roomDto.setDayPrice(room.getDayPrice());
+		roomDto.setStatus(room.getStatus());
+		roomsDto.add(roomDto);
+			}			
+		String msg = String.format("Room " + roomById.getTitle() + " has been enabled." );
+	    model.addAttribute("msgStatus", msg);
+		model.addAttribute("rooms", roomsDto);
+		return "rooms";
+	}
+	
+	@GetMapping("/admin/room/disable/{roomId}")
+	public String disableRoom(@PathVariable("roomId")Long roomId,
+								Model model) {
+		Room roomById = iRoomSrevice.getRoomById(roomId);
+		roomById.setStatus(false);
+		iRoomSrevice.saveRoom(roomById);
+		
+		List<Room> rooms = iRoomSrevice.getAllRooms();
+		List<RoomDto> roomsDto = new ArrayList<RoomDto>();
+		for(Room room: rooms) {
+		RoomDto roomDto = new RoomDto();
+		roomDto.setId(room.getId());
+		roomDto.setTitle(room.getTitle());
+		roomDto.setShortDescription(room.getShortDescription());
+		roomDto.setDescription(room.getDescription());
+		roomDto.setPersonNumber(room.getPersonNumber());
+		roomDto.setDayPrice(room.getDayPrice());
+		roomDto.setStatus(room.getStatus());
+		roomsDto.add(roomDto);
+			}			
+		String msg = String.format("Room " + roomById.getTitle() + " has been disabled." );
+	    model.addAttribute("msgStatus", msg);
+		model.addAttribute("rooms", roomsDto);
+		return "rooms";
+	}
 	
 	
 }

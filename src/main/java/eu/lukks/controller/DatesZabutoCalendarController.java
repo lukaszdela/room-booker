@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,13 +45,6 @@ public class DatesZabutoCalendarController {
 		List<ReservationSingleDto> reservationSingleDtos = new ArrayList<ReservationSingleDto>();
 		
 		reservationSinglesRoom.removeAll(reservationSinglesReservation);
-//		for(ReservationSingle reservationSingleRoom: reservationSinglesRoom) {
-//			for(ReservationSingle reservationSingleReservation: reservationSinglesReservation) {
-//				if(reservationSingleRoom.getDate().isEqual(reservationSingleReservation.getDate())) {
-//					reservationSinglesRoom.remove(reservationSingleRoom);
-//				}
-//			}
-//		}
 		
 		for(ReservationSingle reservation: reservationSinglesRoom) {
 			ReservationSingleDto dto = new ReservationSingleDto();
@@ -81,6 +75,8 @@ public class DatesZabutoCalendarController {
 	@GetMapping("/list/{roomId}")
 	public List<ReservationSingleDto> reservationsSimpleForRoom(@PathVariable("roomId")Long roomId){
 		Room roomById = iRoomService.getRoomById(roomId);
+		List<ReservationSingleDto> reservationSingleDtos = new ArrayList<ReservationSingleDto>();
+		if(roomById.getStatus().equals(true)) {
 		List<ReservationSingle> reservationSinglesFromStartThisMonth = new ArrayList<ReservationSingle>(iReservationSingleService.findReservationSingleStartMonth(iReservationSingleService.parsedDayToday()));
 		List<ReservationSingle> reservationSinglesFromStartThisMonthForRoom = new ArrayList<ReservationSingle>();
 		for(ReservationSingle reservation: reservationSinglesFromStartThisMonth) {
@@ -89,7 +85,6 @@ public class DatesZabutoCalendarController {
 			}
 		}
 				
-		List<ReservationSingleDto> reservationSingleDtos = new ArrayList<ReservationSingleDto>();
 		for(ReservationSingle reservation: reservationSinglesFromStartThisMonthForRoom) {
 			ReservationSingleDto dto = new ReservationSingleDto();
 			dto.setDate(reservation.getDate());
@@ -97,7 +92,13 @@ public class DatesZabutoCalendarController {
 			dto.setClassname(reservation.getClassname());
 			reservationSingleDtos.add(dto);
 		}
+		}
 		return reservationSingleDtos;
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public void handleException(final Exception e) {
+	    
 	}
 
 }

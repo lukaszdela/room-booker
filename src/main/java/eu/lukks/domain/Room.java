@@ -35,6 +35,7 @@ public class Room implements Serializable{
 	private String shortDescription;
 	private String description;
 	private Integer personNumber;
+	private Boolean status;
 	
 	@OneToMany(mappedBy="room")
 	private List<Reservation> reservations;

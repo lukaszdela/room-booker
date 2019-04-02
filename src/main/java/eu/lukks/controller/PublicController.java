@@ -4,14 +4,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import eu.lukks.domain.Reservation;
 import eu.lukks.domain.Room;
@@ -41,6 +47,7 @@ public class PublicController {
 									@PathVariable("roomId")Long roomId,
 									Model model) {
 		Room roomById = iRoomService.getRoomById(roomId);
+		if(roomById.getStatus().equals(true)) {
 		if (!iReservationService.checkDateFromAfterDateTo(reservation.getDateFrom(), reservation.getDateTo()) &&
 			iReservationService.checkDateFromAfterDateTo(reservation.getDateFrom(), LocalDate.now().minusDays(1))	
 				) {
@@ -66,11 +73,14 @@ public class PublicController {
 		model.addAttribute("room", roomById);
 		model.addAttribute("reservations", reservations);
 		return "reservation";
+		}else {
+			return "index";
+		}
 	}
 	
 	@GetMapping("/")
-	public String getAllRooms(Model model) {
-		List<Room> rooms = iRoomService.getAllRooms();
+	public String getAllEnabledRooms(Model model) {
+		List<Room> rooms = iRoomService.getAllActiveRooms();
 		List<RoomDto> roomsDto = new ArrayList<RoomDto>();
 		for(Room room: rooms) {
 			RoomDto roomDto = new RoomDto();
@@ -90,8 +100,17 @@ public class PublicController {
 	public String reservationPageForRoom(@PathVariable("roomId")Long roomId,
 									Model model) {
 		Room room = iRoomService.getRoomById(roomId);
+		if(room.getStatus().equals(true)) {			
 		model.addAttribute("room", room);		
 		return "reservation";
+		}else {
+			return "index";
+		}
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public String handleException(final Exception e) {
+	    return "forward:/";
 	}
 	
 	

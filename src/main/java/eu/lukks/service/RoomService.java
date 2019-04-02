@@ -44,6 +44,11 @@ public class RoomService implements IRoomService{
 		roomRepository.delete(room);
 	}
 	
+	@Override
+	public List<Room> getAllActiveRooms(){
+		return roomRepository.getAllActiveRooms();
+	}
+	
 	
 
 }

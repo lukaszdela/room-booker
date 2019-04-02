@@ -16,4 +16,6 @@ public interface IRoomService {
 
 	void deleteRoom(Room room);
 
+	List<Room> getAllActiveRooms();
+
 }

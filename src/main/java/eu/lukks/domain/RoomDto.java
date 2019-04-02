@@ -17,5 +17,6 @@ public class RoomDto {
 	private String shortDescription;
 	private String description;
 	private Integer personNumber;
+	private Boolean status;
 
 }

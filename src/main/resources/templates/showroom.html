@@ -45,6 +45,19 @@
         <td th:text="${room.dayPrice}">
         </td>
       </tr>
+      <tr>
+        <td>
+          Status:
+        </td>
+        <th:block th:if="${room.status.equals(true)}">
+          <td th:text="Enabled">
+          </td>
+        </th:block>
+        <th:block th:if="${room.status.equals(false)}">
+        <td th:text="Disabled">
+        </td>
+        </th:block>
+      </tr>
     </tbody>
     </table>
     <a th:href="@{/admin}">

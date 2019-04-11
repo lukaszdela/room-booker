@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import eu.lukks.domain.Reservation;
+import eu.lukks.domain.ReservationDto;
 import eu.lukks.domain.ReservationSingle;
 import eu.lukks.domain.Room;
 import eu.lukks.repository.ReservationRepository;
@@ -234,6 +235,31 @@ public class ReservationService implements IReservationService{
 			reservation.setParking(false);
 		}
 		return reservation;
+	}
+	
+	@Override
+	public List<ReservationDto> reservationToReservationDto(List<Reservation> reservations){
+		List<ReservationDto> reservationDtos = new ArrayList<ReservationDto>();
+		for (Reservation reservation : reservations) {
+			ReservationDto reservationDto = new ReservationDto();
+			reservationDto.setId(reservation.getId());
+			reservationDto.setName(reservation.getName());
+			reservationDto.setSurname(reservation.getSurname());
+			reservationDto.setAddress(reservation.getAddress());
+			reservationDto.setZip(reservation.getZip());
+			reservationDto.setCity(reservation.getCity());
+			reservationDto.setPhone(reservation.getPhone());
+			reservationDto.setMail(reservation.getMail());
+			reservationDto.setPrice(reservation.getPrice());
+			reservationDto.setRoomTitle(reservation.getRoomTitle());
+			reservationDto.setBreakfast(reservation.getBreakfast());
+			reservationDto.setParking(reservation.getParking());
+			reservationDto.setDateFrom(reservation.getDateFrom());
+			reservationDto.setDateTo(reservation.getDateTo());
+			reservationDto.setRoomId(reservation.getRoom().getId());
+			reservationDtos.add(reservationDto);
+		}
+		return reservationDtos;
 	}
 	
 }

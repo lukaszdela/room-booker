@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 import eu.lukks.domain.Reservation;
+import eu.lukks.domain.ReservationDto;
 import eu.lukks.domain.Room;
 
 public interface IReservationService {
@@ -38,6 +39,8 @@ public interface IReservationService {
 
 	String checkByDateSingleInReservationsBookedDays(Room room, Reservation reservation, LocalDate newDateFrom,
 			LocalDate newDateTo);
+
+	List<ReservationDto> reservationToReservationDto(List<Reservation> reservations);
 
 
 

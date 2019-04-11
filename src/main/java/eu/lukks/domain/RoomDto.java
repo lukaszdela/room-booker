@@ -1,5 +1,7 @@
 package eu.lukks.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +20,7 @@ public class RoomDto {
 	private String description;
 	private Integer personNumber;
 	private Boolean status;
+	private String mainPhotoThumb;
+	private String mainPhoto;
 
 }

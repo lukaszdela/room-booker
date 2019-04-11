@@ -15,6 +15,9 @@
 <hr />
 <table>
   <tr th:each="room : ${rooms}">
+    <td>
+      <img th:src="${room.mainPhotoThumb}" />
+    </td>
     <td th:text="${room.title}"></td>
     <td>
         <a class="dropdown-item" th:href="@{/reservation/{roomId}(roomId=${room.id})}">Reserve this room</a>

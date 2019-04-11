@@ -20,9 +20,10 @@
   <table align="center">
     <tr>
       <td>
-        <a data-lightbox="room" href="/images/room/01_big.jpg"><img src="/images/room/01_small.jpg" class="rounded"></a>
-        <a hidden data-lightbox="room" href="/images/room/02_big.jpg"><img src="/images/room/02_small.jpg" class="rounded"></a>
-        <a hidden data-lightbox="room" href="/images/room/03_big.jpg"><img src="/images/room/03_small.jpg" class="rounded"></a>
+        <a data-lightbox="room" th:href="${room.mainPhoto}"><img th:src="${room.mainPhotoThumb}" class="rounded"></a>
+        <th:block th:each="photo : ${room.photos}">
+        <a hidden data-lightbox="room" th:href="${photo.pathAndFilename}"><img th:src="${photo.pathAndFilename}" class="rounded"></a>
+        </th:block>
       </td>
     </tr>
     <tr>

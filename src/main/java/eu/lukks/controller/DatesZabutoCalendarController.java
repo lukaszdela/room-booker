@@ -1,6 +1,5 @@
 package eu.lukks.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +19,11 @@ import eu.lukks.service.IRoomService;
 
 @RestController
 public class DatesZabutoCalendarController {
-	
+
 	private IReservationService iReservationService;
 	private IReservationSingleService iReservationSingleService;
 	private IRoomService iRoomService;
-	
+
 	@Autowired
 	public DatesZabutoCalendarController(IReservationService iReservationService,
 			IReservationSingleService iReservationSingleService, IRoomService iRoomService) {
@@ -33,36 +32,36 @@ public class DatesZabutoCalendarController {
 		this.iReservationSingleService = iReservationSingleService;
 		this.iRoomService = iRoomService;
 	}
-	
-	
 
 	@GetMapping("/admin/list/update/{reservationId}")
-	public List<ReservationSingleDto> reservationsListUpdateId(@PathVariable("reservationId")Long reservationId) {
+	public List<ReservationSingleDto> reservationsListUpdateId(@PathVariable("reservationId") Long reservationId) {
 		Reservation reservationById = iReservationService.readReservationById(reservationId);
 		Room roomReservationById = reservationById.getRoom();
-		List<ReservationSingle> reservationSinglesRoom = new ArrayList<ReservationSingle>(roomReservationById.getReservationSingles());
-		List<ReservationSingle> reservationSinglesReservation = new ArrayList<ReservationSingle>(reservationById.getReservationSingles());
+		List<ReservationSingle> reservationSinglesRoom = new ArrayList<ReservationSingle>(
+				roomReservationById.getReservationSingles());
+		List<ReservationSingle> reservationSinglesReservation = new ArrayList<ReservationSingle>(
+				reservationById.getReservationSingles());
 		List<ReservationSingleDto> reservationSingleDtos = new ArrayList<ReservationSingleDto>();
-		
+
 		reservationSinglesRoom.removeAll(reservationSinglesReservation);
-		
-		for(ReservationSingle reservation: reservationSinglesRoom) {
+
+		for (ReservationSingle reservation : reservationSinglesRoom) {
 			ReservationSingleDto dto = new ReservationSingleDto();
 			dto.setDate(reservation.getDate());
 			dto.setBadge(reservation.getBadge());
 			dto.setClassname(reservation.getClassname());
 			reservationSingleDtos.add(dto);
 		}
-		
+
 		return reservationSingleDtos;
 	}
-	
+
 	@GetMapping("/admin/list/show/{reservationId}")
-	public List<ReservationSingleDto> reservationsListShowId(@PathVariable("reservationId")Long reservationId) {
+	public List<ReservationSingleDto> reservationsListShowId(@PathVariable("reservationId") Long reservationId) {
 		Reservation reservationById = iReservationService.readReservationById(reservationId);
 		List<ReservationSingle> reservationSingles = reservationById.getReservationSingles();
 		List<ReservationSingleDto> reservationSingleDtos = new ArrayList<ReservationSingleDto>();
-		for(ReservationSingle reservation: reservationSingles) {
+		for (ReservationSingle reservation : reservationSingles) {
 			ReservationSingleDto dto = new ReservationSingleDto();
 			dto.setDate(reservation.getDate());
 			dto.setBadge(reservation.getBadge());
@@ -71,34 +70,36 @@ public class DatesZabutoCalendarController {
 		}
 		return reservationSingleDtos;
 	}
-	
+
 	@GetMapping("/list/{roomId}")
-	public List<ReservationSingleDto> reservationsSimpleForRoom(@PathVariable("roomId")Long roomId){
+	public List<ReservationSingleDto> reservationsSimpleForRoom(@PathVariable("roomId") Long roomId) {
 		Room roomById = iRoomService.getRoomById(roomId);
 		List<ReservationSingleDto> reservationSingleDtos = new ArrayList<ReservationSingleDto>();
-		if(roomById.getStatus().equals(true)) {
-		List<ReservationSingle> reservationSinglesFromStartThisMonth = new ArrayList<ReservationSingle>(iReservationSingleService.findReservationSingleStartMonth(iReservationSingleService.parsedDayToday()));
-		List<ReservationSingle> reservationSinglesFromStartThisMonthForRoom = new ArrayList<ReservationSingle>();
-		for(ReservationSingle reservation: reservationSinglesFromStartThisMonth) {
-			if(reservation.getRoom().equals(roomById)) {
-				reservationSinglesFromStartThisMonthForRoom.add(reservation);
+		if (roomById.getStatus().equals(true)) {
+			List<ReservationSingle> reservationSinglesFromStartThisMonth = new ArrayList<ReservationSingle>(
+					iReservationSingleService
+							.findReservationSingleStartMonth(iReservationSingleService.parsedDayToday()));
+			List<ReservationSingle> reservationSinglesFromStartThisMonthForRoom = new ArrayList<ReservationSingle>();
+			for (ReservationSingle reservation : reservationSinglesFromStartThisMonth) {
+				if (reservation.getRoom().equals(roomById)) {
+					reservationSinglesFromStartThisMonthForRoom.add(reservation);
+				}
 			}
-		}
-				
-		for(ReservationSingle reservation: reservationSinglesFromStartThisMonthForRoom) {
-			ReservationSingleDto dto = new ReservationSingleDto();
-			dto.setDate(reservation.getDate());
-			dto.setBadge(reservation.getBadge());
-			dto.setClassname(reservation.getClassname());
-			reservationSingleDtos.add(dto);
-		}
+
+			for (ReservationSingle reservation : reservationSinglesFromStartThisMonthForRoom) {
+				ReservationSingleDto dto = new ReservationSingleDto();
+				dto.setDate(reservation.getDate());
+				dto.setBadge(reservation.getBadge());
+				dto.setClassname(reservation.getClassname());
+				reservationSingleDtos.add(dto);
+			}
 		}
 		return reservationSingleDtos;
 	}
-	
+
 	@ExceptionHandler(Exception.class)
 	public void handleException(final Exception e) {
-	    
+
 	}
 
 }

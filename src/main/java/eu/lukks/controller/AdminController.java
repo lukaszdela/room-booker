@@ -63,7 +63,7 @@ public class AdminController {
 			reservationDtos.add(reservationDto);
 		}
 		model.addAttribute("reservations", reservationDtos);
-		return "admin";
+		return "reservations";
 	}
 	
 
@@ -82,7 +82,7 @@ public class AdminController {
 		String msg = String.format("Reservation number: " + reservationIdString + " has been deleted");
 	    model.addAttribute("msgStatus", msg);
 		model.addAttribute("reservations", reservations);
-		return "admin";
+		return "reservations";
 	}
 
 	@PostMapping("/admin/reservation/update/save/{reservationId}/{roomId}")
@@ -120,7 +120,7 @@ public class AdminController {
 
 	List<Reservation> reservations = iReservationService.listNumberedAdminReservations(PageRequest.of(0,20));
 	model.addAttribute("reservations", reservations);
-	return "admin";
+	return "reservations";
 	}
 
 	@GetMapping("/admin/reservation/update/{reservationId}")
@@ -183,7 +183,7 @@ public class AdminController {
 			reservationDtos.add(reservationDto);
 		}
 		model.addAttribute("reservations", reservationDtos);
-		return "admin";
+		return "reservations";
 	}
 
 	@PostMapping("/admin/search/number")
@@ -215,7 +215,7 @@ public class AdminController {
 			String msg = String.format("Number latest reservations must be above 0");
 	        model.addAttribute("msg", msg);
 		}
-		return "admin";
+		return "reservations";
 	}
 	
 

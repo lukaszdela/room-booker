@@ -27,7 +27,8 @@ public class Photo implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String path;
+	private String pathAndFilename;
+	private String filename;
 	
 	@ManyToOne
 	@JoinColumn(name="room_id")

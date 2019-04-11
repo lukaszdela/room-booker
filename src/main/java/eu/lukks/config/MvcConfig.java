@@ -2,6 +2,7 @@ package eu.lukks.config;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -9,8 +10,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableAutoConfiguration
 public class MvcConfig implements WebMvcConfigurer {
 
+	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-//		registry.addViewController("/reservation").setViewName("reservation");
 		registry.addViewController("/admin/room/add").setViewName("roomadd");
 
 	}

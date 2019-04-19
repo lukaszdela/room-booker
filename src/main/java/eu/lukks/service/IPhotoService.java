@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import eu.lukks.domain.Photo;
 import eu.lukks.domain.PhotoFile;
 import eu.lukks.domain.Room;
 

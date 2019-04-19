@@ -1,6 +1,5 @@
 package eu.lukks.repository;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,11 +12,12 @@ import org.springframework.stereotype.Repository;
 import eu.lukks.domain.Reservation;
 
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation, Long>{
-	
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+
 	@Query("select e from Reservation e where (e.dateFrom >= :dateFrom) and (e.dateTo <= :dateTo)")
-    List<Reservation> searchReservationsByDate(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo);
-	
+	List<Reservation> searchReservationsByDate(@Param("dateFrom") LocalDate dateFrom,
+			@Param("dateTo") LocalDate dateTo);
+
 	@Query("select e from Reservation e order by e.id desc")
 	List<Reservation> listNumberedAdminReservations(Pageable pageable);
 

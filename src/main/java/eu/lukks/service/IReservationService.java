@@ -1,6 +1,5 @@
 package eu.lukks.service;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import eu.lukks.domain.ReservationDto;
 import eu.lukks.domain.Room;
 
 public interface IReservationService {
-	
+
 	Reservation readReservationById(Long id);
 
 	void saveReservation(Reservation reservation);
@@ -30,7 +29,7 @@ public interface IReservationService {
 
 	List<LocalDate> datesListFromDateToDate(LocalDate dateFrom, LocalDate dateTo);
 
-	Integer calculatePriceForNewReservation(Reservation reservation);
+	Double calculatePriceForNewReservation(Reservation reservation, Double priceOneDay);
 
 	Reservation updateReservation(Reservation reservation, Reservation updatedReservation);
 
@@ -42,7 +41,6 @@ public interface IReservationService {
 
 	List<ReservationDto> reservationToReservationDto(List<Reservation> reservations);
 
-
-
+	ReservationDto reservationToReservationDtoSingle(Reservation reservation);
 
 }

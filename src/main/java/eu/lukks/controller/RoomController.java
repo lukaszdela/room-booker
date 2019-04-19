@@ -68,13 +68,6 @@ public class RoomController {
 		return "reservations";
 	}
 
-	@GetMapping("/admin/room/show/{roomId}")
-	public String showRoom(@PathVariable("roomId") Long roomId, Model model) {
-		Room room = iRoomSrevice.getRoomById(roomId);
-		model.addAttribute("room", iRoomSrevice.roomToRoomDto(room));
-		return "showroom";
-	}
-
 	@GetMapping("/admin/room/update/{roomId}")
 	public String updateRoom(@PathVariable("roomId") Long roomId, Model model) {
 		Room room = iRoomSrevice.getRoomById(roomId);

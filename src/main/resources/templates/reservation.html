@@ -3,234 +3,235 @@
 
 <title>Room booker by Luc</title>
 </head>
+
 <body>
 
 
-<div class="container">
+  <div class="container">
 
-<img src="/images/logo.png">
-<br />
-<br />
-<h4>Room</h4>
-<input hidden id="roomid" th:value="${room.id}"/>
-<hr />
+    <img src="/images/logo.png">
+    <br />
+    <br />
+    <h4>Room</h4>
+    <input hidden id="roomid" th:value="${room.id}" />
+    <input hidden id="priceFromRoom" th:value="${room.dayPrice}" />
+    <hr />
 
-<div class="row">
-<div class="col-sm">
-  <table align="center">
-    <tr>
-      <td>
-        <a data-lightbox="room" th:href="${room.mainPhoto}"><img th:src="${room.mainPhotoThumb}" class="rounded"></a>
-        <th:block th:each="photo : ${room.photos}">
-        <a hidden data-lightbox="room" th:href="${photo.pathAndFilename}"><img th:src="${photo.pathAndFilename}" class="rounded"></a>
-        </th:block>
-      </td>
-    </tr>
-    <tr>
-      <td>
-      <p style="text-align: center; color:#999">
-        <i><small>(click to see more photos)</small></i>
-      </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <br />
-      </td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid #D3D3D3;text-align: center;">
-      <p style="margin-top: 15px;">
-        Cost for 1 day: 120 $
-      </p>
-      </td>
-    </tr>
-  </table>
-  <br />
-</div>
-
-<div class="col-sm">
-  <h5>Beautiful Room in Victorian Family Home</h5>
-  <br />
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</p>
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</p>
-</div>
-
-</div>
-
-</div>
-
-
-
-
-    <div class="container">
-    <h4>Reservation</h4>
-<hr />
-<th:block th:if="${msg}">
-       <div class="row justify-content-md-center">
-       <div class="alert alert-warning w-75" role="alert">
-           <br>
-           <p align="center" th:text="${msg}"></p>
-       </div>
-       </div>
-   </th:block>
-<div class="row">
-  <div class="col-sm">
-    <form class="form-horizontal" th:action="@{/reservation/add/{roomId}(roomId=${room.id})}" method="post">
-<div class="row justify-content-md-center">
-  <div class="col-lg-8">
-
-    <div class="bootstrap-iso">
-   <div class="container-fluid">
     <div class="row">
-      <!-- label -->
-      <div class="input-daterange input-group" id="datepicker">
-      <input type="text" required="" class="input-sm form-control" id="dateFrom" name="dateFrom" placeholder="date from" onchange="calcReservation();"/>
-      <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-      <input type="text" required="" class="input-sm form-control" id="dateTo" name="dateTo" placeholder="date to" onchange="calcReservation();"/>
-  </div>
+      <div class="col-sm">
+        <table align="center">
+          <tr>
+            <td>
+              <a data-lightbox="room" th:href="${room.mainPhoto}"><img th:src="${room.mainPhotoThumb}" class="rounded"></a>
+              <th:block th:each="photo : ${room.photos}">
+                <a hidden data-lightbox="room" th:href="${photo.pathAndFilename}"><img th:src="${photo.pathAndFilename}" class="rounded"></a>
+              </th:block>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p style="text-align: center; color:#999">
+                <i><small>(click to see more photos)</small></i>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <br />
+            </td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #D3D3D3;text-align: center;">
+              <p style="margin-top: 15px;">
+                <span>Cost for 1 day: </span><span th:text="${room.dayPrice}"></span><span>&nbsp;$</span>
+              </p>
+              <p style="margin-top: 15px;">
+                <span>Room for: </span><span th:text="${room.personNumber}"></span>
+              </p>
+            </td>
+          </tr>
+        </table>
+        <br />
+      </div>
+
+      <div class="col-sm">
+        <h5 th:text="${room.title}"></h5>
+        <br />
+        <p th:utext="${room.description}"></p>
+      </div>
+
     </div>
-   </div>
+
   </div>
-  <br />
 
-              <div class="form-group">
-                  <input name="name" placeholder="Name" class="form-control input-md" required="" type="text" maxlength="20">
-              </div>
-              <div class="form-group">
-                  <input name="surname" placeholder="Surname" class="form-control input-md" required="" type="text" maxlength="20">
-              </div>
-              <div class="form-group">
-                  <input name="address" placeholder="Address" class="form-control input-md" required="" type="text" maxlength="20">
-              </div>
-              <div class="form-group">
-                  <div class="input-group">
-                    <div class="w-25 ml-4 mr-3">
-                    <input name="zip" placeholder="Zip code" class="form-control input-md" required="" type="text" maxlength="8">
-                    </div>
 
-                    <div class="w-50">
-                    <input name="city" placeholder="City" class="form-control input-md" required="" type="text" maxlength="15">
+
+
+  <div class="container">
+    <h4>Reservation</h4>
+    <hr />
+    <th:block th:if="${msg}">
+      <div class="row justify-content-md-center">
+        <div class="alert alert-warning w-75" role="alert">
+          <br>
+          <p align="center" th:text="${msg}"></p>
+        </div>
+      </div>
+    </th:block>
+    <div class="row">
+      <div class="col-sm">
+        <form class="form-horizontal" th:action="@{/reservation/add/{roomId}(roomId=${room.id})}" method="post">
+          <div class="row justify-content-md-center">
+            <div class="col-lg-8">
+
+              <div class="bootstrap-iso">
+                <div class="container-fluid">
+                  <div class="row">
+                    <!-- label -->
+                    <div class="input-daterange input-group" id="datepicker">
+                      <input type="text" required="" class="input-sm form-control" id="dateFrom" name="dateFrom" placeholder="date from" onchange="calculate();" />
+                      <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <input type="text" required="" class="input-sm form-control" id="dateTo" name="dateTo" placeholder="date to" onchange="calculate();" />
                     </div>
                   </div>
+                </div>
+              </div>
+              <br />
+
+              <div class="form-group">
+                <input name="name" placeholder="Name" class="form-control input-md" required="" type="text" maxlength="20">
+              </div>
+              <div class="form-group">
+                <input name="surname" placeholder="Surname" class="form-control input-md" required="" type="text" maxlength="20">
+              </div>
+              <div class="form-group">
+                <input name="address" placeholder="Address" class="form-control input-md" required="" type="text" maxlength="20">
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="w-25 ml-4 mr-3">
+                    <input name="zip" placeholder="Zip code" class="form-control input-md" required="" type="text" maxlength="8">
+                  </div>
+
+                  <div class="w-50">
+                    <input name="city" placeholder="City" class="form-control input-md" required="" type="text" maxlength="15">
+                  </div>
+                </div>
 
               </div>
               <div class="form-group">
-                  <input name="phone" placeholder="Phone" class="form-control input-md" required="" type="text" maxlength="20">
+                <input name="phone" placeholder="Phone" class="form-control input-md" required="" type="text" maxlength="20">
               </div>
               <div class="form-group">
-                  <input name="mail" placeholder="Mail" class="form-control input-md" required="" type="email" maxlength="40">
+                <input name="mail" placeholder="Mail" class="form-control input-md" required="" type="email" maxlength="40">
               </div>
 
               <div class="row">
                 <div class="col-2">
-                    <input id="breakfast" class="form-control input-md" name="breakfast" value="true" type="checkbox" onchange="calcReservation();"/>
+                  <input id="breakfast" class="form-control input-md" name="breakfast" value="true" type="checkbox" onchange="calculate();" />
                 </div>
                 <div class="col-10">
-                    <p>
-                      Breakfast (5 $ per day)
-                    </p>
+                  <p>
+                    Breakfast (5 $ per day)
+                  </p>
                 </div>
               </div>
               <div class="row">
                 <div class="col-2">
-                    <input id="parking" class="form-control input-md" name="parking" value="true" type="checkbox" onchange="calcReservation();"/>
+                  <input id="parking" class="form-control input-md" name="parking" value="true" type="checkbox" onchange="calculate();" />
                 </div>
                 <div class="col-10">
-                    <p>
-                      Parking (5 $ per day)
-                    </p>
+                  <p>
+                    Parking (5 $ per day)
+                  </p>
                 </div>
               </div>
 
-<br />
-<div class="row">
-  <div class="col-2">
-      <input class="form-control input-md" required="" type="checkbox"/>
-  </div>
-  <div class="col-10">
-      <p>
-        Agree to terms and conditions.
-      </p>
-  </div>
-</div>
-
-          <br />
-              <div class="form-group">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+              <br />
+              <div class="row">
+                <div class="col-2">
+                  <input class="form-control input-md" required="" type="checkbox" />
+                </div>
+                <div class="col-10">
+                  <p>
+                    Agree to terms and conditions.
+                  </p>
+                </div>
               </div>
-              </form>
 
-            </div>
-            </div>
+              <br />
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+        </form>
+
+      </div>
+    </div>
   </div>
 
-<div class="col-sm">
-  <div class="row justify-content-md-center">
-    <div class="col-lg-10">
-<div class="row bg-light">
-<div class="col mt-3 ml-3">
-<p>
-  Total cost for reservation:
-</p>
-</div>
+  <div class="col-sm">
+    <div class="row justify-content-md-center">
+      <div class="col-lg-10">
+        <div class="row bg-light">
+          <div class="col mt-3 ml-3">
+            <p>
+              Total cost for reservation:
+            </p>
+          </div>
 
-<div class="col mt-3" id="result"></div>
-</div>
-<br />
-<div id="my-calendar"></div>
-<p style="text-align: center; color:#999">
-  <i><small>(dates occupied)</small></i>
-</p>
-</div>
-</div>
-</div>
-</div>
-
-
+          <div class="col mt-3" id="result"></div>
+        </div>
+        <br />
+        <div id="my-calendar"></div>
+        <p style="text-align: center; color:#999">
+          <i><small>(dates occupied)</small></i>
+        </p>
+      </div>
+    </div>
+  </div>
+  </div>
 
 
-</div>
-  </body>
+
+
+  </div>
+</body>
+
 </html>
 <script type="application/javascript">
-var roomId = $('#roomid').val();
-    $(document).ready(function () {
-        $("#my-calendar").zabuto_calendar({
-language: "en",
-show_previous: false,
- nav_icon: {
-      prev: '<i class="fa fa-chevron-circle-left"><img src="/images/left-chevron.png"></i>',
-      next: '<i class="fa fa-chevron-circle-right"><img src="/images/right-chevron.png"></i>'
-    },
-  ajax: {
-     url: "/list/" + roomId
-   },
- cell_border: true
-        });
-        $('#datepicker.input-daterange').datepicker({
-          format: "yyyy-mm-dd",
-          weekStart: 1,
-          startDate: "today",
-          maxViewMode: 1,
-          autoclose: true,
-          toggleActive: true
-        });
-    });
+  var roomId = $('#roomid').val();
+  var priceFromRoom = $('#priceFromRoom').val();
 
-    lightbox.option({
-  'alwaysShowNavOnTouchDevices': true,
-  'wrapAround': true,
-  'showImageNumberLabel':false
-});
+  function calculate() {
+    calcReservation(priceFromRoom);
+  }
+
+  $(document).ready(function() {
+    $("#my-calendar").zabuto_calendar({
+      language: "en",
+      show_previous: false,
+      nav_icon: {
+        prev: '<i class="fa fa-chevron-circle-left"><img src="/images/left-chevron.png"></i>',
+        next: '<i class="fa fa-chevron-circle-right"><img src="/images/right-chevron.png"></i>'
+      },
+      ajax: {
+        url: "/list/" + roomId
+      },
+      cell_border: true
+    });
+    $('#datepicker.input-daterange').datepicker({
+      format: "yyyy-mm-dd",
+      weekStart: 1,
+      startDate: "today",
+      maxViewMode: 1,
+      autoclose: true,
+      toggleActive: true
+    });
+  });
+
+  lightbox.option({
+    'alwaysShowNavOnTouchDevices': true,
+    'wrapAround': true,
+    'showImageNumberLabel': false
+  });
 </script>

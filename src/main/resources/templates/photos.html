@@ -3,98 +3,109 @@
 
 <title th:text="${'Room booker by Luc | photo upload for room ' + roomId}"></title>
 </head>
+
 <body>
 
-<div class="container w-75 mt-5">
+  <div class="container w-75 mt-5">
 
-<div>
-  <form th:action="@{/admin/file/upload/}" method="post" enctype="multipart/form-data">
-  <input type="file" name="file" multiple>
-  <input hidden name="roomId" th:value="${roomId}" />
-  <input type="submit" value="Upload Files">
-</div>
-<div id="list">
-  <span>main photo thumb</span>
-  <br />
-  <form action="">
-    <th:block th:each="file : ${files}">
+    <div>
+      <form th:action="@{/admin/file/upload/}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" multiple>
+        <input hidden name="roomId" th:value="${roomId}" />
+        <input type="submit" value="Upload Files">
+    </div>
 
-    <th:block th:if="${file.fullPath.equals(mainthumb)}">
-    <input type="radio" name="mainPhotoThumb" th:text="${file.filename}" th:value="${file.fullPath}" checked="checked"/>
-    <span>&nbsp;</span>
-    <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
-    <a th:href="@{/admin/file/addthumb/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
-    <a data-lightbox="photo1" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
-      <br /></th:block>
-      <th:block th:if="${!file.fullPath.equals(mainthumb)}">
-      <input type="radio" name="mainPhotoThumb" th:text="${file.filename}" th:value="${file.fullPath}"/>
-      <span>&nbsp;</span>
-      <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
-      <a th:href="@{/admin/file/addthumb/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
-      <a data-lightbox="photo1" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
-        <br /></th:block>
-
-      </th:block>
-    </form>
-</div>
-
-<div id="list">
-  <span>main photo</span>
-  <br />
-  <form action="">
-    <th:block th:each="file : ${files}">
-
-    <th:block th:if="${file.fullPath.equals(mainphoto)}">
-    <input type="radio" name="mainPhoto" th:text="${file.filename}" th:value="${file.fullPath}" checked="checked"/>
-    <span>&nbsp;</span>
-    <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
-    <a th:href="@{/admin/file/mainphoto/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
-    <a data-lightbox="photo2" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
-      <br /></th:block>
-      <th:block th:if="${!file.fullPath.equals(mainphoto)}">
-      <input type="radio" name="mainPhoto" th:text="${file.filename}" th:value="${file.fullPath}"/>
-      <span>&nbsp;</span>
-      <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
-      <a th:href="@{/admin/file/mainphoto/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
-      <a data-lightbox="photo2" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
-        <br /></th:block>
-
-      </th:block>
-    </form>
-</div>
-
-<div id="list">
-  <span>room photos</span>
-  <br />
-  <form action="">
-    <th:block th:each="file : ${files}">
-
-    <th:block th:if="${file.checked == true}">
-    <input type="checkbox" name="roomPhoto" th:text="${file.filename}" th:value="${file.fullPath}" checked />
-    <span>&nbsp;</span>
-    <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
-    <a data-lightbox="photo3" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
-    <a th:href="@{/admin/file/photo/set/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
-    <a th:href="@{/admin/file/photo/unset/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">unset</a>
+    <!-- main photo thumb -->
+    <div class="container border">
+      <span>main photo thumb</span>
       <br />
-    </th:block>
 
-    <th:block th:if="${file.checked == false}">
-    <input type="checkbox" name="roomPhoto" th:text="${file.filename}" th:value="${file.fullPath}" />
-    <span>&nbsp;</span>
-    <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
-    <a data-lightbox="photo3" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
-    <a th:href="@{/admin/file/photo/set/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
-    <a th:href="@{/admin/file/photo/unset/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">unset</a>
+      <form action="">
+        <th:block th:each="file : ${files}">
+
+          <th:block th:if="${file.fullPath.equals(mainthumb)}">
+            <input type="radio" name="mainPhotoThumb" th:text="${file.filename}" th:value="${file.fullPath}" checked="checked" />
+            <span>&nbsp;</span>
+            <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
+            <a th:href="@{/admin/file/addthumb/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
+            <a data-lightbox="photo1" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
+            <br /></th:block>
+          <th:block th:if="${!file.fullPath.equals(mainthumb)}">
+            <input type="radio" name="mainPhotoThumb" th:text="${file.filename}" th:value="${file.fullPath}" />
+            <span>&nbsp;</span>
+            <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
+            <a th:href="@{/admin/file/addthumb/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
+            <a data-lightbox="photo1" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
+            <br /></th:block>
+
+        </th:block>
+      </form>
       <br />
-    </th:block>
+    </div>
+    <!-- main photo thumb end-->
 
-      </th:block>
-    </form>
-</div>
+    <!-- main photo -->
+    <div class="container border">
+      <span>main photo</span>
+      <br />
+      <form action="">
+        <th:block th:each="file : ${files}">
+
+          <th:block th:if="${file.fullPath.equals(mainphoto)}">
+            <input type="radio" name="mainPhoto" th:text="${file.filename}" th:value="${file.fullPath}" checked="checked" />
+            <span>&nbsp;</span>
+            <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
+            <a th:href="@{/admin/file/mainphoto/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
+            <a data-lightbox="photo2" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
+            <br /></th:block>
+          <th:block th:if="${!file.fullPath.equals(mainphoto)}">
+            <input type="radio" name="mainPhoto" th:text="${file.filename}" th:value="${file.fullPath}" />
+            <span>&nbsp;</span>
+            <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
+            <a th:href="@{/admin/file/mainphoto/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
+            <a data-lightbox="photo2" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
+            <br /></th:block>
+
+        </th:block>
+      </form>
+    </div>
+    <!-- main photo end-->
+
+    <!-- room photos -->
+    <div class="container border">
+      <span>room photos</span>
+      <br />
+      <form action="">
+        <th:block th:each="file : ${files}">
+
+          <th:block th:if="${file.checked == true}">
+            <input type="checkbox" name="roomPhoto" th:text="${file.filename}" th:value="${file.fullPath}" checked />
+            <span>&nbsp;</span>
+            <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
+            <a data-lightbox="photo3" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
+            <a th:href="@{/admin/file/photo/set/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
+            <a th:href="@{/admin/file/photo/unset/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">unset</a>
+            <br />
+          </th:block>
+
+          <th:block th:if="${file.checked == false}">
+            <input type="checkbox" name="roomPhoto" th:text="${file.filename}" th:value="${file.fullPath}" />
+            <span>&nbsp;</span>
+            <a th:href="@{/admin/file/delete/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">delete</a>
+            <a data-lightbox="photo3" th:href="@{/upload/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">show</a>
+            <a th:href="@{/admin/file/photo/set/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">set</a>
+            <a th:href="@{/admin/file/photo/unset/{roomId}/{filename} (roomId=${roomId}, filename=${file.filename})}">unset</a>
+            <br />
+          </th:block>
+
+        </th:block>
+      </form>
+    </div>
+    <!-- room photos end-->
 
 
-</div>
+  </div>
 
 </body>
+
 </html>

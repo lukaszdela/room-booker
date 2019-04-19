@@ -3,115 +3,117 @@
 
 <title th:text="${'Room booker by Luc | show reservation ' + reservation.id}"></title>
 </head>
+
 <body>
 
   <div class="container w-75 mt-5">
     <div class="row">
       <div class="col">
         <input hidden id="reservationid" th:value="${reservation.id}" />
-        <input hidden id="dateFrom" th:value="${reservation.dateFrom}"/>
-    <table class="table table-bordered">
-    <tbody>
-    <tr>
-      <td>
-        Date:
-      </td>
-      <td th:text="${reservation.dateFrom + ' to ' + reservation.dateTo}">
-      </td>
-      </tr>
-      <tr>
-        <td>
-          Name:
-        </td>
-        <td th:text="${reservation.name + ' ' + reservation.surname}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Address:
-        </td>
-        <td th:text="${reservation.address + ', ' + reservation.zip + ' '+ reservation.city}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Mail:
-        </td>
-        <td th:text="${reservation.mail}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Phone number:
-        </td>
-        <td th:text="${reservation.phone}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Room:
-        </td>
-        <td th:text="${reservation.roomTitle}">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Extras:
-        </td>
-        <td>
-          <p th:if="${reservation.breakfast == true}" th:text=${'breakfast'}>
-            </p>
-            <p th:if="${reservation.parking == true}" th:text=${'parking'}>
-              </p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Reservation cost:
-        </td>
-        <td th:text="${reservation.price}">
-        </td>
-      </tr>
-    </tbody>
-    </table>
-    <a th:href="@{/admin}">
-<button class="btn btn-outline-danger">Back</button>
-</a>
+        <input hidden id="dateFrom" th:value="${reservation.dateFrom}" />
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td>
+                Date:
+              </td>
+              <td th:text="${reservation.dateFrom + ' to ' + reservation.dateTo}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Name:
+              </td>
+              <td th:text="${reservation.name + ' ' + reservation.surname}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Address:
+              </td>
+              <td th:text="${reservation.address + ', ' + reservation.zip + ' '+ reservation.city}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Mail:
+              </td>
+              <td th:text="${reservation.mail}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Phone number:
+              </td>
+              <td th:text="${reservation.phone}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Room:
+              </td>
+              <td th:text="${reservation.roomTitle}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Extras:
+              </td>
+              <td>
+                <p th:if="${reservation.breakfast == true}" th:text=${'breakfast'}>
+                </p>
+                <p th:if="${reservation.parking == true}" th:text=${'parking'}>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Reservation cost:
+              </td>
+              <td th:text="${reservation.price}">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <a th:href="@{/admin/reservations}">
+          <button class="btn btn-outline-danger">Back</button>
+        </a>
+      </div>
+      <div class="col">
+        <div id="my-calendar"></div>
+        <p style="text-align: center; color:#999">
+        </p>
+      </div>
+    </div>
   </div>
-  <div class="col">
-    <div id="my-calendar"></div>
-    <p style="text-align: center; color:#999">
-    </p>
-  </div>
-</div>
-</div>
 </body>
+
 </html>
 <script type="application/javascript">
-var reservationId = $('#reservationid').val();
-var dateFromGetMonth = new Date(document.getElementById('dateFrom').value);
-var reservationMonth = dateFromGetMonth.getMonth() + 1;
-$(document).ready(function () {
-  $('#datepicker.input-daterange').datepicker({
-    format: "yyyy-mm-dd",
-    weekStart: 1,
-    startDate: "today",
-    maxViewMode: 1,
-    autoclose: true,
-    toggleActive: true
-  });
-      $("#my-calendar").zabuto_calendar({
-language: "en",
-month: reservationMonth,
-show_previous: false,
-nav_icon: {
-    prev: '<i class="fa fa-chevron-circle-left"><img src="/images/left-chevron.png"></i>',
-    next: '<i class="fa fa-chevron-circle-right"><img src="/images/right-chevron.png"></i>'
-  },
-ajax: {
-   url: "/admin/list/show/" + reservationId
- },
-cell_border: true
-      });
+  var reservationId = $('#reservationid').val();
+  var dateFromGetMonth = new Date(document.getElementById('dateFrom').value);
+  var reservationMonth = dateFromGetMonth.getMonth() + 1;
+  $(document).ready(function() {
+    $('#datepicker.input-daterange').datepicker({
+      format: "yyyy-mm-dd",
+      weekStart: 1,
+      startDate: "today",
+      maxViewMode: 1,
+      autoclose: true,
+      toggleActive: true
+    });
+    $("#my-calendar").zabuto_calendar({
+      language: "en",
+      month: reservationMonth,
+      show_previous: false,
+      nav_icon: {
+        prev: '<i class="fa fa-chevron-circle-left"><img src="/images/left-chevron.png"></i>',
+        next: '<i class="fa fa-chevron-circle-right"><img src="/images/right-chevron.png"></i>'
+      },
+      ajax: {
+        url: "/admin/list/show/" + reservationId
+      },
+      cell_border: true
+    });
   });
 </script>

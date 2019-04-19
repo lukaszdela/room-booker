@@ -27,13 +27,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="reservation")
-public class Reservation implements Serializable{
+@Table(name = "reservation")
+public class Reservation implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8687449736198845689L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
 	private String surname;
 	private String address;
@@ -41,26 +46,24 @@ public class Reservation implements Serializable{
 	private String city;
 	private String phone;
 	private String mail;
-	private Integer price;
+	private Double price;
 	private String roomTitle;
 	private Boolean breakfast = false;
 	private Boolean parking = false;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate dateFrom;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate dateTo;
-	
+
 	@ManyToOne
-	@JoinColumn(name="room_id")
+	@JoinColumn(name = "room_id")
 	private Room room;
-	
-	@OneToMany(mappedBy="reservation")
+
+	@OneToMany(mappedBy = "reservation")
 	private List<ReservationSingle> reservationSingles;
-	
-	
-	
+
 }

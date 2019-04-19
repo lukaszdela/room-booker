@@ -1,7 +1,5 @@
 package eu.lukks.domain;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoomDto {
-	
+
 	private Long id;
 	private String title;
-	private Long dayPrice;
+	private Double dayPrice;
 	private String shortDescription;
 	private String description;
 	private Integer personNumber;

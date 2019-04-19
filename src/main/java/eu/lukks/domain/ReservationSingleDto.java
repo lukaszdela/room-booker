@@ -16,11 +16,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservationSingleDto {
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate date;
-	
+
 	private Boolean badge;
 	private String classname;
 

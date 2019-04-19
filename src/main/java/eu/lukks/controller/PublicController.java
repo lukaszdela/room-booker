@@ -43,7 +43,7 @@ public class PublicController {
 					&& iReservationService.checkDateFromAfterDateTo(reservation.getDateFrom(),
 							LocalDate.now().minusDays(1))) {
 				if (!iReservationSingleService.checkByDate(roomById, reservation)) {
-					reservation.setPrice(iReservationService.calculatePriceForNewReservation(reservation));
+					reservation.setPrice(iReservationService.calculatePriceForNewReservation(reservation, roomById.getDayPrice()));
 					reservation.setRoom(roomById);
 					reservation.setRoomTitle(roomById.getTitle());
 					iReservationService.saveReservation(reservation);

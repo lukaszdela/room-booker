@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PhotoFile {
-	
+
 	private String filename;
 	private String fullPath;
 	private Boolean checked;

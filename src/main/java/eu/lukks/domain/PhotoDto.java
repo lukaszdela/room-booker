@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PhotoDto {
-	
+
 	private String pathAndFilename;
 
 }

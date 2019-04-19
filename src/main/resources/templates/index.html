@@ -3,30 +3,48 @@
 
 <title>Room booker by Luc</title>
 </head>
+
 <body>
 
 
-<div class="container">
+  <div class="container">
 
-<img src="/images/logo.png">
-<br />
-<br />
-<h4>Rooms</h4>
-<hr />
-<table>
-  <tr th:each="room : ${rooms}">
-    <td>
-      <img th:src="${room.mainPhotoThumb}" />
-    </td>
-    <td th:text="${room.title}"></td>
-    <td>
-        <a class="dropdown-item" th:href="@{/reservation/{roomId}(roomId=${room.id})}">Reserve this room</a>
-    </td>
-  </tr>
-</table>
+    <img src="/images/logo.png">
+    <br />
+    <br />
+    <h4>Rooms</h4>
+    <hr />
+
+    <div class="row" th:each="room : ${rooms}">
+      <div class="col-sm">
+        <table align="center">
+          <tr>
+            <td>
+              <a th:href="@{/reservation/{roomId}(roomId=${room.id})}">
+                <img th:src="${room.mainPhotoThumb}" class="rounded" />
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="col-sm">
+        <h5 th:text="${room.title}"></h5>
+        <br />
+        <p th:utext="${room.shortDescription}">
+        </p>
+        <a th:href="@{/reservation/{roomId}(roomId=${room.id})}">
+          <button class="btn btn-outline-success">Reserve this room</button>
+        </a>
+        <br />
+        <br />
+        <br />
+      </div>
+    </div>
 
 
-</div>
+  </div>
 
-  </body>
+</body>
+
 </html>

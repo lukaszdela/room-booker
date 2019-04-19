@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import eu.lukks.domain.Photo;
 
 @Repository
-public interface PhotoRepository extends JpaRepository<Photo, Long>{
+public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
 }

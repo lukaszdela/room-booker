@@ -9,15 +9,13 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import eu.lukks.domain.Photo;
-import eu.lukks.domain.PhotoFile;
 import eu.lukks.domain.Room;
 import eu.lukks.domain.RoomDto;
 import eu.lukks.repository.RoomRepository;
 
 @Service
-public class RoomService implements IRoomService{
-	
+public class RoomService implements IRoomService {
+
 	private RoomRepository roomRepository;
 
 	@Autowired
@@ -25,37 +23,37 @@ public class RoomService implements IRoomService{
 		super();
 		this.roomRepository = roomRepository;
 	}
-	
+
 	@Override
-	public List<Room> getAllRooms(){
+	public List<Room> getAllRooms() {
 		return roomRepository.findAll();
 	}
-	
+
 	@Override
 	public void addNewRoom(Room room) {
 		roomRepository.save(room);
 	}
-	
+
 	@Override
 	public Room getRoomById(Long id) {
 		return roomRepository.findById(id).orElse(null);
 	}
-	
+
 	@Override
 	public void saveRoom(Room room) {
 		roomRepository.save(room);
 	}
-	
+
 	@Override
 	public void deleteRoomFiles(Room room) {
-		String uploadDirectory = System.getProperty("user.dir")+"/files";
+		String uploadDirectory = System.getProperty("user.dir") + "/files";
 		File folder = new File(uploadDirectory + "/" + room.getId().toString());
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
-		  if (listOfFiles[i].isFile()) {
-			  listOfFiles[i].delete();
-		  }
+			if (listOfFiles[i].isFile()) {
+				listOfFiles[i].delete();
+			}
 		}
 		try {
 			FileUtils.deleteDirectory(folder);
@@ -64,26 +62,27 @@ public class RoomService implements IRoomService{
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void deleteRoom(Room room) {
 		roomRepository.delete(room);
 	}
-	
+
 	@Override
-	public List<Room> getAllActiveRooms(){
+	public List<Room> getAllActiveRooms() {
 		return roomRepository.getAllActiveRooms();
 	}
-	
+
 	@Override
 	public void createDirectoryForRoomFiles(Long id) {
-		String roomDirectory = System.getProperty("user.dir")+"/files/"+id.toString();
+		String roomDirectory = System.getProperty("user.dir") + "/files/" + id.toString();
 		new File(roomDirectory).mkdir();
 	}
-	
+
 	@Override
-	public List<RoomDto> roomsToRoomsDto(List<Room> rooms){
+	public List<RoomDto> roomsToRoomsDto(List<Room> rooms) {
 		List<RoomDto> roomsDto = new ArrayList<RoomDto>();
-		for(Room room: rooms) {
+		for (Room room : rooms) {
 			RoomDto roomDto = new RoomDto();
 			roomDto.setId(room.getId());
 			roomDto.setTitle(room.getTitle());
@@ -96,9 +95,9 @@ public class RoomService implements IRoomService{
 		}
 		return roomsDto;
 	}
-	
+
 	@Override
-	public List<RoomDto> roomsToRoomsDtoAdmin(List<Room> rooms){
+	public List<RoomDto> roomsToRoomsDtoAdmin(List<Room> rooms) {
 		List<RoomDto> roomsDto = new ArrayList<RoomDto>();
 		for (Room room : rooms) {
 			RoomDto roomDto = new RoomDto();
@@ -126,7 +125,7 @@ public class RoomService implements IRoomService{
 		roomDto.setStatus(room.getStatus());
 		return roomDto;
 	}
-	
+
 	@Override
 	public Room updateRoomFromRoomDto(Room updatedRoom, RoomDto updateRoomDto) {
 		updatedRoom.setTitle(updateRoomDto.getTitle());

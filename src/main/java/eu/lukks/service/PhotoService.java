@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class PhotoService implements IPhotoService {
 
 	private PhotoRepository photoRepository;
 	private IRoomService iRoomService;
+	private static final Logger LOGGER = Logger.getLogger(PhotoService.class.getName());
 
 	@Autowired
 	public PhotoService(PhotoRepository photoRepository, IRoomService iRoomService) {
@@ -38,6 +40,7 @@ public class PhotoService implements IPhotoService {
 				photoRepository.deleteById(photo.getId());
 			}
 		}
+		LOGGER.info("Unset photo for room id: " + room.getId().toString());
 	}
 
 	@Override
@@ -46,6 +49,7 @@ public class PhotoService implements IPhotoService {
 		for (Photo photo : roomPhotos) {
 			photoRepository.deleteById(photo.getId());
 		}
+		LOGGER.info("Delete photos for room id :" + room.getId().toString());
 	}
 
 	@Override
@@ -58,6 +62,7 @@ public class PhotoService implements IPhotoService {
 		photoRepository.save(photo);
 		roomPhotos.add(photo);
 		iRoomService.saveRoom(room);
+		LOGGER.info("Set photo for room id: " + room.getId().toString());
 	}
 
 	@Override
@@ -81,6 +86,7 @@ public class PhotoService implements IPhotoService {
 
 			}
 		}
+		LOGGER.info("File list for room id: " + roomId);
 		return filelist;
 	}
 
@@ -92,6 +98,7 @@ public class PhotoService implements IPhotoService {
 		if (!roomDirectory.exists()) {
 			roomDirectory.mkdir();
 		}
+		LOGGER.info("Check if directory for room exists, if not create for room id: " + roomId);
 	}
 
 	@Override
@@ -125,7 +132,7 @@ public class PhotoService implements IPhotoService {
 				}
 			}
 		}
-
+		LOGGER.info("Upload files for room id: " + roomId);
 	}
 
 	@Override
@@ -137,6 +144,7 @@ public class PhotoService implements IPhotoService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		LOGGER.info("Delete file " + filename + " for room id: " + roomId);
 	}
 
 }

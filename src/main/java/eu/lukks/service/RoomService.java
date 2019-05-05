@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import eu.lukks.repository.RoomRepository;
 public class RoomService implements IRoomService {
 
 	private RoomRepository roomRepository;
+	private static final Logger LOGGER = Logger.getLogger(RoomService.class.getName());
 
 	@Autowired
 	public RoomService(RoomRepository roomRepository) {
@@ -26,21 +28,25 @@ public class RoomService implements IRoomService {
 
 	@Override
 	public List<Room> getAllRooms() {
+		LOGGER.info("Get all rooms list.");
 		return roomRepository.findAll();
 	}
 
 	@Override
 	public void addNewRoom(Room room) {
+		LOGGER.info("New room created: " + room.getTitle());
 		roomRepository.save(room);
 	}
 
 	@Override
 	public Room getRoomById(Long id) {
+		LOGGER.info("Get room by id: " + id.toString());
 		return roomRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public void saveRoom(Room room) {
+		LOGGER.info("Save room " + room.getTitle());
 		roomRepository.save(room);
 	}
 
@@ -61,15 +67,18 @@ public class RoomService implements IRoomService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		LOGGER.info("Delete files fo room id: " + room.getId().toString());
 	}
 
 	@Override
 	public void deleteRoom(Room room) {
 		roomRepository.delete(room);
+		LOGGER.info("Delete room id: " + room.getId().toString());
 	}
 
 	@Override
 	public List<Room> getAllActiveRooms() {
+		LOGGER.info("Active rooms list get.");
 		return roomRepository.getAllActiveRooms();
 	}
 
@@ -77,6 +86,7 @@ public class RoomService implements IRoomService {
 	public void createDirectoryForRoomFiles(Long id) {
 		String roomDirectory = System.getProperty("user.dir") + "/files/" + id.toString();
 		new File(roomDirectory).mkdir();
+		LOGGER.info("Create directory for room files, room id: " + id.toString());
 	}
 
 	@Override
@@ -93,6 +103,7 @@ public class RoomService implements IRoomService {
 			roomDto.setMainPhotoThumb(room.getMainPhotoThumb());
 			roomsDto.add(roomDto);
 		}
+		LOGGER.info("Room list to RoomDto list.");
 		return roomsDto;
 	}
 
@@ -110,6 +121,7 @@ public class RoomService implements IRoomService {
 			roomDto.setStatus(room.getStatus());
 			roomsDto.add(roomDto);
 		}
+		LOGGER.info("Room list to RoomDto list.");
 		return roomsDto;
 	}
 
@@ -123,6 +135,7 @@ public class RoomService implements IRoomService {
 		roomDto.setPersonNumber(room.getPersonNumber());
 		roomDto.setDayPrice(room.getDayPrice());
 		roomDto.setStatus(room.getStatus());
+		LOGGER.info("Room to RoomDto.");
 		return roomDto;
 	}
 
@@ -133,6 +146,7 @@ public class RoomService implements IRoomService {
 		updatedRoom.setDescription(updateRoomDto.getDescription());
 		updatedRoom.setPersonNumber(updateRoomDto.getPersonNumber());
 		updatedRoom.setDayPrice(updateRoomDto.getDayPrice());
+		LOGGER.info("Update room id: " + updatedRoom.getId().toString());
 		return updatedRoom;
 	}
 }

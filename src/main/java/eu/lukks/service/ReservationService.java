@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import eu.lukks.repository.ReservationRepository;
 public class ReservationService implements IReservationService {
 
 	private ReservationRepository reservartionRepository;
+	private static final Logger LOGGER = Logger.getLogger(ReservationService.class.getName());
 
 	@Autowired
 	public ReservationService(ReservationRepository reservartionRepository) {
@@ -29,26 +31,31 @@ public class ReservationService implements IReservationService {
 
 	@Override
 	public Reservation readReservationById(Long id) {
+		LOGGER.info("Get reservation id: " + id.toString());
 		return reservartionRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public void saveReservation(Reservation reservation) {
+		LOGGER.info("Save reservation.");
 		reservartionRepository.save(reservation);
 	}
 
 	@Override
 	public void deleteReservationById(Long id) {
+		LOGGER.info("Delete reservation id: "+ id.toString());
 		reservartionRepository.deleteById(id);
 	}
 
 	@Override
 	public List<Reservation> findAllReservations() {
+		LOGGER.info("Get all reservations.");
 		return reservartionRepository.findAll();
 	}
 
 	@Override
 	public Boolean checkDateFromAfterDateTo(LocalDate dateFrom, LocalDate dateTo) {
+		LOGGER.info("Check dateFrom is after dateTo.");
 		return dateFrom.isAfter(dateTo);
 	}
 
@@ -60,16 +67,19 @@ public class ReservationService implements IReservationService {
 			counterDate = counterDate.plusDays(1);
 			counter++;
 		}
+		LOGGER.info("How many days count.");
 		return counter;
 	}
 
 	@Override
 	public List<Reservation> searchReservationsByDate(LocalDate dateFrom, LocalDate dateTo) {
+		LOGGER.info("Reservation list by dates.");
 		return reservartionRepository.searchReservationsByDate(dateFrom, dateTo);
 	}
 
 	@Override
 	public List<Reservation> listNumberedAdminReservations(Pageable pageable) {
+		LOGGER.info("Get reservation list numbered for admin table.");
 		return reservartionRepository.listNumberedAdminReservations(pageable);
 	}
 
@@ -119,7 +129,7 @@ public class ReservationService implements IReservationService {
 		if (equalDays.size() > 0) {
 			trigger = true;
 		}
-
+LOGGER.info("Check if new date is in reservation boolean.");
 		return trigger;
 	}
 
@@ -172,7 +182,7 @@ public class ReservationService implements IReservationService {
 			stringBuilder.append(", ");
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 2);
-
+		LOGGER.info("Check if new date is in reservation String list.");
 		return stringBuilder.toString();
 	}
 
@@ -185,6 +195,7 @@ public class ReservationService implements IReservationService {
 				dateFrom = dateFrom.plusDays(1);
 			}
 		}
+		LOGGER.info("Date list from date range.");
 		return datesList;
 	}
 
@@ -201,6 +212,7 @@ public class ReservationService implements IReservationService {
 		if (reservation.getParking() == true) {
 			reservationCost = reservationCost + (daysCounter * priceParking);
 		}
+		LOGGER.info("Calculate price for new reservation");
 		return reservationCost;
 	}
 
@@ -226,6 +238,7 @@ public class ReservationService implements IReservationService {
 		} else {
 			reservation.setParking(false);
 		}
+		LOGGER.info("Update reservation id: " + reservation.getId().toString());
 		return reservation;
 	}
 
@@ -251,6 +264,7 @@ public class ReservationService implements IReservationService {
 			reservationDto.setRoomId(reservation.getRoom().getId());
 			reservationDtos.add(reservationDto);
 		}
+		LOGGER.info("Reservation list to ReservationDto list.");
 		return reservationDtos;
 	}
 
@@ -272,6 +286,7 @@ public class ReservationService implements IReservationService {
 		reservationDto.setDateFrom(reservation.getDateFrom());
 		reservationDto.setDateTo(reservation.getDateTo());
 		reservationDto.setRoomId(reservation.getRoom().getId());
+		LOGGER.info("Reservation to ReservationDto.");
 		return reservationDto;
 	}
 

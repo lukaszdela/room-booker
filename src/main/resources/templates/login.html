@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Roombooker by luc - login</title>
+
+<style type="text/css">
+* {
+	box-sizing: border-box;
+}
+
+*:focus {
+	outline: none;
+}
+
+body {
+	font-family: Arial;
+	background-color: #fff;
+	padding: 50px;
+}
+
+.login {
+	margin: 20px auto;
+	width: 300px;
+	border: 2px solid #4fbf57;
+	border-radius: 3px;
+}
+
+.login-screen {
+	background-color: #FFF;
+	padding: 20px;
+	border-radius: 5px
+}
+
+.app-title {
+	text-align: center;
+	color: #777;
+}
+
+.login-form {
+	text-align: center;
+}
+
+.control-group {
+	margin-bottom: 10px;
+}
+
+input {
+	text-align: center;
+	background-color: #ECF0F1;
+	border: 2px solid transparent;
+	border-radius: 3px;
+	font-size: 16px;
+	font-weight: 200;
+	padding: 10px 0;
+	transition: border .5s;
+}
+
+#main {
+	width: 250px;
+}
+
+#email {
+	width: 505px;
+}
+
+input:focus {
+	border: 2px solid #4fbf57;
+	box-shadow: none;
+}
+
+.btn {
+	border: 2px solid transparent;
+	background: #4fbf57;
+	color: #ffffff;
+	font-size: 16px;
+	line-height: 25px;
+	padding: 10px 0;
+	text-decoration: none;
+	text-shadow: none;
+	border-radius: 3px;
+	box-shadow: none;
+	transition: 0.25s;
+	display: block;
+	width: 250px;
+	margin: 0 auto;
+}
+
+.btn:hover {
+	background-color: #cddbce;
+}
+</style>
+</head>
+<body>
+<div class="container">
+	
+
+	<div class="login">
+		<div class="login-screen">
+<div class="app-title">
+			<span>roombooker by luc</span>
+		</div>
+
+			<form method="POST" th:action="@{/login}">
+				<div class="login-form">
+					<div class="control-group">
+						<br /> <input id="main" type="text"
+							class="login-field super-style" value=""
+							placeholder="login" name="username">
+					</div>
+					<div class="control-group">
+						<input id="main" type="password" class="login-field super-style"
+							value="" placeholder="password" name="password">
+					</div>
+					<input id="main" class="btn"
+						type="submit" value="Log In">
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div>
+		<div th:if="${param.error}">
+			<p align="center">
+				<b>Invalid username and password.</b>
+			</p>
+		</div>
+		<div th:if="${param.logout}">
+			<p align="center">
+				<b>You have been logged out.</b>
+			</p>
+		</div>
+	</div>
+	
+</div>
+</body>
+</html>

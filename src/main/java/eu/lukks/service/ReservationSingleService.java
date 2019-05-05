@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import eu.lukks.repository.ReservationSingleRepository;
 public class ReservationSingleService implements IReservationSingleService {
 
 	private ReservationSingleRepository reservationSingleRepository;
+	private static final Logger LOGGER = Logger.getLogger(ReservationSingleService.class.getName());
 
 	@Autowired
 	public ReservationSingleService(ReservationSingleRepository reservationSingleRepository) {
@@ -26,6 +28,7 @@ public class ReservationSingleService implements IReservationSingleService {
 
 	@Override
 	public List<ReservationSingle> getAllSingleReservations() {
+		LOGGER.info("Get all ReservationSingles list.");
 		return reservationSingleRepository.findAll();
 	}
 
@@ -43,6 +46,7 @@ public class ReservationSingleService implements IReservationSingleService {
 			reservationSingleRepository.save(reservationSingle);
 			counterDate = counterDate.plusDays(1);
 		}
+		LOGGER.info("Save ReservationSingle day by day for room id: " + room.getId().toString());
 	}
 
 	@Override
@@ -60,6 +64,7 @@ public class ReservationSingleService implements IReservationSingleService {
 			reservationSingleRepository.save(reservationSingle);
 			counterDate = counterDate.plusDays(1);
 		}
+		LOGGER.info("Save ReservationSingle by reservation date for room id: " + room.getId().toString());
 	}
 
 	@Override
@@ -86,6 +91,7 @@ public class ReservationSingleService implements IReservationSingleService {
 
 			counterDate = counterDate.plusDays(1);
 		}
+		LOGGER.info("Delete ReservationSingle for reservation id: " + reservation.getId().toString());
 	}
 
 	@Override
@@ -113,6 +119,7 @@ public class ReservationSingleService implements IReservationSingleService {
 
 			counterDate = counterDate.plusDays(1);
 		}
+		LOGGER.info("Delete ReservationSingle by dates for room id: " + room.getId().toString());
 	}
 
 	@Override
@@ -145,7 +152,7 @@ public class ReservationSingleService implements IReservationSingleService {
 		if (equalDates.size() > 0) {
 			trigger = true;
 		}
-
+		LOGGER.info("Reservation Single check for reservation dates for room id: " + room.getId().toString());
 		return trigger;
 	}
 
@@ -183,7 +190,7 @@ public class ReservationSingleService implements IReservationSingleService {
 			}
 			stringBuilder.deleteCharAt(stringBuilder.length() - 2);
 		}
-
+		LOGGER.info("Reservation Single check for reservation dates for room id: " + room.getId().toString());
 		return stringBuilder.toString();
 	}
 
@@ -193,6 +200,7 @@ public class ReservationSingleService implements IReservationSingleService {
 		LocalDate firstDayActualDate = actualDate.withDayOfMonth(1);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String text = firstDayActualDate.format(formatter);
+		LOGGER.info("Parse date today.");
 		return LocalDate.parse(text, formatter);
 	}
 
@@ -202,16 +210,19 @@ public class ReservationSingleService implements IReservationSingleService {
 		LocalDate firstDayActualDate = actualDate.withDayOfMonth(1);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String text = firstDayActualDate.format(formatter);
+		LOGGER.info("Parse date.");
 		return LocalDate.parse(text, formatter);
 	}
 
 	@Override
 	public List<ReservationSingle> getSimpleReservationsForRoom(Room room) {
+		LOGGER.info("Get ReservationSingle list for room id: " + room.getId().toString());
 		return reservationSingleRepository.getAllByRoom(room);
 	}
 
 	@Override
 	public List<ReservationSingle> findReservationSingleStartMonth(LocalDate date) {
+		LOGGER.info("Get ReservationSingle list from date: " + date.toString());
 		return reservationSingleRepository.searchSingleReservationStartMonth(date);
 	}
 
